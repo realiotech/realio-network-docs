@@ -1,2 +1,3 @@
 # realio-network-docs
-Realio Network Documentation site
+
+This repo contains the documentation of Realio Network hosted on https://docs.realio.network
