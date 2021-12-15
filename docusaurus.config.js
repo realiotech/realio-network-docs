@@ -23,7 +23,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/realiotech/realio-network-docs',
+          editUrl: 'https://bitbucket.org/realio/realio-network-docs',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -53,7 +53,7 @@ const config = {
             label: 'Documentation',
           },
           {
-            href: 'https://github.com/realiotech/realio-network-docs',
+            href: 'https://bitbucket.org/realio/realio-network-docs',
             label: 'GitHub',
             position: 'right',
           },
@@ -97,7 +97,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/realiotech/realio-network',
+                href: 'https://bitbucket.org/realio/realio-network-docs',
               },
             ],
           },
