@@ -332,7 +332,7 @@ $ systemctl status realio-networkd
 ```
 
 #### Check the node logs
-If you want to see the current logs of the node, you can do so by running
+If you want to see the current logs of the node, you can do so by running the command:
 
 ```bash
 journalctl -u realio-networkd -f
