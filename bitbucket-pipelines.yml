@@ -24,7 +24,7 @@ pipelines:
           script:
             - docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
             - docker build --build-arg=NODE_ENV=stage -t $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT .
-            - docker tag $DOCKER_REGISTRY/realio-network:$BITBUCKET_COMMIT $DOCKER_REGISTRY/realio-network-docs:latest
+            - docker tag $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT $DOCKER_REGISTRY/realio-network-docs:latest
             - docker push $DOCKER_REGISTRY/realio-network-docs:latest
             - docker push $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT
           services:
