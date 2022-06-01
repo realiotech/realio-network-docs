@@ -18,8 +18,7 @@ FROM nginx:stable-alpine as deploy
 WORKDIR /home/node/app
 # Copy what we've installed/built from production
 COPY --from=build /home/node/app/build /usr/share/nginx/html/
-RUN echo ls
-COPY build/docs/index.html /usr/share/nginx/html/index.html
+COPY --from=build /home/node/app/build/docs/index.html /usr/share/nginx/html/index.html
 RUN rm -rf /etc/nginx/conf.d
 COPY conf /etc/nginx
 EXPOSE 80
