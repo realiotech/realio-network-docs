@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the source code over
-COPY --chown=node:node . /home/node/app/
+COPY . /home/node/app/
 
 RUN npm run build
 
@@ -17,7 +17,7 @@ RUN npm run build
 FROM nginx:stable-alpine as deploy
 WORKDIR /home/node/app
 # Copy what we've installed/built from production
-COPY --chown=node:node --from=build /home/node/app/build /usr/share/nginx/html/
+COPY --from=build /home/node/app/build /usr/share/nginx/html/
 RUN echo ls
 COPY build/docs/index.html /usr/share/nginx/html/index.html
 RUN rm -rf /etc/nginx/conf.d
