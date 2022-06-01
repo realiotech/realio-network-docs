@@ -22,7 +22,9 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
+          sidebarCollapsible: true,
           editUrl: 'https://bitbucket.org/realio/realio-network-docs',
         },
         theme: {

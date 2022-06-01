@@ -17,11 +17,7 @@ requirements.
 :::tip Choose your DB backend
 Before installing the software, a consideration must be done.
 
-By default, Realio Network uses [LevelDB](https://github.com/google/leveldb) as its database backend engine. However, since
-version `v0.6.0` we've also added the possibility of optionally
-using [Facebook's RocksDB](https://github.com/facebook/rocksdb), which, although still being experimental, is known to
-be faster and could lead to lower syncing times. If you want to try out RocksDB you can take a look at
-our [RocksDB installation guide](04-rocksdb-installation.mdx) before proceeding further.
+By default, Realio Network uses [LevelDB](https://github.com/google/leveldb) as its database backend engine. 
 :::
 
 In your terminal, run the following:
@@ -361,4 +357,4 @@ $ systemctl status realio-networkd
 ```
 
 ## 9. Cosmovisor
-In order to do automatic on-chain upgrades we will be using cosmovisor. Please check out [Using Cosmovisor](05-cosmovisor.md) for information on how to set this up.
+In order to do automatic on-chain upgrades we will be using cosmovisor. Please check out [Using Cosmovisor](04-cosmovisor.md) for information on how to set this up.
