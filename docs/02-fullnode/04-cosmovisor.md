@@ -67,7 +67,7 @@ Once you're in, we suggest you to set the following values:
 ```
 export DAEMON_HOME=$HOME/.realio-network
 export DAEMON_NAME=realio-networkd
-export DAEMON_ALLOW_DOWNLOAD_BINARIES=true
+export DAEMON_ALLOW_DOWNLOAD_BINARIES=false
 export DAEMON_RESTART_AFTER_UPGRADE=true
 export UNSAFE_SKIP_BACKUP=false
 ```
@@ -115,7 +115,7 @@ cosmovisor start
 If you are running your node using a service, you need to update your service file to use `cosmovisor` instead of `realio-networkd`. To do this you can simply run the following command:
 
 ```shell
-sudo tee /etc/systemd/system/realio-networkd.service > /dev/null <<EOF  
+sudo tee /etc/systemd/system/realio-networkd.service
 [Unit]
 Description=Realio Network Full Node
 After=network-online.target
@@ -135,7 +135,7 @@ Environment="UNSAFE_SKIP_BACKUP=false"
 
 [Install]
 WantedBy=multi-user.target
-EOF
+
 ```
 
 **IMPORTANT**: If you don't have much free disk space, please set `UNSAFE_SKIP_BACKUP=true` to avoid your node failing the upgrade due to insufficient disk space when creating the backup.
