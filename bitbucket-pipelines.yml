@@ -9,10 +9,13 @@ pipelines:
           deployment: production
           script:
             - docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
-            - docker build --build-arg=NODE_ENV=production -t $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT .
-            - docker tag $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT $DOCKER_REGISTRY/realio-network-docs:prod
-            - docker push $DOCKER_REGISTRY/realio-network-docs:prod
-            - docker push $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT
+            - docker build -build-arg=NODE_ENV=production --build-arg=GIT_COMMIT=$BITBUCKET_COMMIT -t $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT -f Dockerfile .
+            - docker tag $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:prod
+            - docker push $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:prod
+            - docker push $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT
+            - git remote add sync git@github.com:realiotech/$BITBUCKET_REPO_SLUG.git
+            - git checkout -b main
+            - git push sync main
           services:
             - docker
           caches:
@@ -23,10 +26,10 @@ pipelines:
           deployment: staging
           script:
             - docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
-            - docker build --build-arg=NODE_ENV=stage -t $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT .
-            - docker tag $DOCKER_REGISTRY/realio-network:$BITBUCKET_COMMIT $DOCKER_REGISTRY/realio-network-docs:latest
-            - docker push $DOCKER_REGISTRY/realio-network-docs:latest
-            - docker push $DOCKER_REGISTRY/realio-network-docs:$BITBUCKET_COMMIT
+            - docker build --build-arg=GIT_COMMIT=$BITBUCKET_COMMIT -build-arg=NODE_ENV=staging -t $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT -f Dockerfile .
+            - docker tag $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:latest
+            - docker push $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:latest
+            - docker push $DOCKER_REGISTRY/$BITBUCKET_REPO_SLUG:$BITBUCKET_COMMIT
           services:
             - docker
           caches:
