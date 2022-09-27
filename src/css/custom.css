@@ -26,3 +26,9 @@
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+/* footer adjustments */
+:root .footer__col {
+    text-align: center;
+    padding-bottom: 1em;
+}

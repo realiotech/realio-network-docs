@@ -5,20 +5,14 @@ sidebar_position: 2
 ---
 
 # Full node setup
-Following you will find the instructions on how to manually setup your Realio Network full node.
+Below you will find the instructions on how to manually setup your Realio Network full node.
 
 :::warning Requirements
-Before starting, make sure you read the [overview](overview) to make sure your hardware meets the needed
+Before starting, make sure you read the [overview](overview) to make sure your hardware meets the necessary
 requirements.
 :::
 
 ## 1. Build the software
-
-:::tip Choose your DB backend
-Before installing the software, a consideration must be done.
-
-By default, Realio Network uses [LevelDB](https://github.com/google/leveldb) as its database backend engine. 
-:::
 
 In your terminal, run the following:
 
@@ -30,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v0.0.1
+git checkout tags/v0.4.0
 
 # Build the software
 # If you want to use the default database backend run
@@ -44,6 +38,16 @@ try running:
 
 ```bash
 realio-networkd version --long
+
+# example output:
+...
+name: realionetwork
+server_name: realio-networkd
+version: 0.3.0
+commit: 97eb6314360efb874ce1b5bf96b97db771188b11
+build_tags: netgo,testnet
+go: go version go1.18.4 darwin/amd64
+
 ```
 
 ## 2. Initialize the Realio Network working directory
@@ -57,7 +61,7 @@ private node key instead of having to create a new node.
 
 In order to provide a custom seed to your private key, you can do as follows:
 
-1. Get a new random seed by running
+1. Get a new random seed by running:
    ```shell
    realio-networkd keys add node --dry-run
 
@@ -65,8 +69,8 @@ In order to provide a custom seed to your private key, you can do as follows:
    # realio-networkd keys add node --dry-run
    # - name: node
    #   type: local
-   #   address: realio126cw9j2wy099lttf2qx0qds6k7t4kdea5ualh9
-   #   pubkey: realiopub1addwnpepqdpfv4lh0vqjvmu43spz4lq0l92qret9hv6007j4r28z05wuthw2jz3frd4
+   #   address: realio126cw9j2wy099lttz2qx0qds6k7t4kdea5ualh9
+   #   pubkey: realiopub1addwnqfpqdpfv4lh0vqjvmu43spz4lq0l92qret9hv6007j4r28z05wuthw2jz3frd4
    #   mnemonic: ""
    #   threshold: 0
    #   pubkeys: []
@@ -75,13 +79,13 @@ In order to provide a custom seed to your private key, you can do as follows:
    # **Important** write this mnemonic phrase in a safe place.
    # It is the only way to recover your account if you ever forget your password.
    #
-   # sort curious village display voyage oppose dice idea mutual inquiry keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
+   # sort curious village display voyager oppose dice idea mutual inquiry keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
    ```
    This will create a new key **without** adding it to your keystore, and output the underlying seed.
 
-2. Run the `init` command using the `--recover` flag.
+2. Run the `init` command using the `--recover` flag:
    ```shell
-   realio-networkd init <your_node_moniker> --recover
+   realio-networkd init <your_node_moniker> --recover --chain-id <the_chain_id>
    ```
    You can choose any `moniker` value you like. It will be saved in the `config.toml` under the `.realio-network/` working
    directory.
@@ -89,7 +93,7 @@ In order to provide a custom seed to your private key, you can do as follows:
 3. Insert the previously outputted secret recovery phrase (mnemonic phrase):
    ```
    > Enter your bip39 mnemonic
-   sort curious village display voyage oppose dice idea mutual inquiry keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
+   sort curious village display voyager oppose dice idea mutual inquiry keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
    ```
 
    This will generate the working files in `~/.realio-network`
@@ -103,26 +107,25 @@ In order to provide a custom seed to your private key, you can do as follows:
 
 To connect to an existing network, or start a new one, a genesis file is required. The file contains all the settings
 telling how the genesis block of the network should look like.
- - If you are setting up a **testnet** node refer to this [procedure](../05-testnets/03-join-public/genesis-file.md);
+ - If you are setting up a **testnet** node refer to this [procedure](/testnet/join-public/genesis-file)
 
 ## 4. Setup seeds
 
-The next thing you have to do now is telling your node how to connect with other nodes that are already present on the
-network. In order to do so, we will use the `seeds` and `persistent_peers` values of the `~/.realio-network/config/config.toml`
+Next, you'll need to tell your node how to connect with other nodes that are already present on the network. 
+In order to do so, you will use the `seeds` and `persistent_peers` values of the `~/.realio-network/config/config.toml`
 file.
 
-Seed nodes are a particular type of nodes present on the network. Your fullnode will connect to them, and they will
-provide it with a list of other fullnodes that are present on the network. Then, your fullnode will automatically
+Seed nodes are a particular type of nodes present on the network. Your full node will connect to them, and they will
+provide it with a list of other full nodes that are present on the network. Then, your fullnode will automatically
 connect to such nodes. 
-- If you are looking for **testnet** seeds please check here: [Testnet seeds](../05-testnets/03-join-public/seeds.md);
+- If you are looking for **testnet** seeds please check here: [Testnet seeds](/testnet/join-public/seeds)
 
 ## 5. State sync
 
-Realio Network has support for Tendermint'
-s [state sync](https://docs.tendermint.com/master/nodes/state-sync.html#configure-state-sync). This feature allows new nodes to
+The Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/master/nodes/state-sync.html#configure-state-sync). This feature allows new nodes to
 sync with the chain extremely fast, by downloading snapshots created by other full nodes.
 Here below, you can find the links to check for the correct procedure depending on which network you're setting up your node:
-- If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](../05-testnets/03-join-public/state-sync.md);
+- If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync).
 
 ### Changing state sync height
 If you change the state sync height, you will need to perform these actions before trying to sync again:
@@ -131,15 +134,15 @@ If you change the state sync height, you will need to perform these actions befo
     2. Run `realio-networkd unsafe-reset-all`;
     3. Restore the `priv_validator_state.json` file.
     4. Restart the node.
-* If you're running a *full node*:
+* If you're running a **full node**:
     1. Run `realio-networkd unsafe-reset-all`;
     2. Restart the node.
     
 ## 6. (Optional) Edit snapshot config
 
-Currently, the `snapshot` feature is enabled by the default. This means that your node will periodically create snapshots of the chain state and make them public, allowing other nodes to quickly join the network by syncing the application state at a given height.
+Currently, the `snapshot` feature is disabled by the default. If it is enabled, your node will periodically create snapshots of the chain state and make them public, allowing other nodes to quickly join the network by syncing the application state at a given height.
 
-By default, we have set Realio Network to take snapshots every 500 blocks, and persist the last 2 snapshots, deleting older ones. If you want to provide other nodes with more (or less) frequent snapshots, you can do this by editing a couple of things inside your `~/.realio-network/config/app.toml` file, under the `state-sync` section:
+If you want to provide other nodes with snapshots, you can do this by editing a couple of things inside your `~/.realio-network/config/app.toml` file, under the `state-sync` section:
 
 ```toml
 # snapshot-interval specifies the block interval at which local state sync snapshots are
@@ -164,15 +167,17 @@ You can find out more about pruning [here](01-overview.mdx#understanding-pruning
 
 Now that everything is in place to start the node, the last thing to do is to open up the proper ports.
 
-Your node uses vary different ports to interact with the rest of the chain. Particularly, it relies on:
+Your node uses various different ports to interact with the rest of the chain. Particularly, it relies on:
 
 - port `26656` to listen for incoming connections from other nodes;
-- port `26657` to expose the RPC service to clients.
+- port `26657` to expose the Tendermint RPC service to clients.
 
 A part from those, it also uses:
 
 - port `9090` to expose the [gRPC](https://grpc.io/) service that allows clients to query the chain state;
 - port `1317` to expose the REST APIs service.
+- port `8545` Ethereum JSON-RPC to query Ethereum-formatted transactions and blocks or send Ethereum txs using JSON-RPC
+- port `8546` Ethereum Websocket to subscribe to Ethereum logs and events emitted in smart contracts.
 
 While opening any ports are optional, it is beneficial to the whole network if
 you open port `26656`. This would allow new nodes to connect to you as a peer, making them sync faster and the connections more reliable.
@@ -206,6 +211,7 @@ After setting up the binary and opening up ports, you are now finally ready to s
 
 ```bash
 # Run Realio Network full node
+# todo review basic start command
 realio-networkd start
 ```
 
@@ -219,44 +225,7 @@ realio-networkd status
 You should see an output like the following one:
 
 ```json
-{
-   "NodeInfo":{
-      "protocol_version":{
-         "p2p":"8",
-         "block":"11",
-         "app":"0"
-      },
-      "id":"e717a45df9a4478024afc2a4a3571200e3221499",
-      "listen_addr":"tcp://0.0.0.0:26656",
-      "network":"realionetwork-test",
-      "version":"0.34.12",
-      "channels":"40202122233038606100",
-      "moniker":"realio-test-1",
-      "other":{
-         "tx_index":"on",
-         "rpc_address":"tcp://127.0.0.1:26657"
-      }
-   },
-   "SyncInfo":{
-      "latest_block_hash":"457499C2081F6942AABFB0DB7CB14ED158D88134C4F194E9BD6953ACAEC75B39",
-      "latest_app_hash":"CF951E52FED3C1270AD68FD79DB5383C002D0DC4BC7E99C77C86577662A0087E",
-      "latest_block_height":"106993",
-      "latest_block_time":"2021-12-14T23:04:45.750931036Z",
-      "earliest_block_hash":"ABCA05731B673E9475C1656CEF141FA675492373FDF22BFFB1F2B10E02BFA624",
-      "earliest_app_hash":"E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
-      "earliest_block_height":"1",
-      "earliest_block_time":"2021-12-07T18:01:27.364749213Z",
-      "catching_up":false
-   },
-   "ValidatorInfo":{
-      "Address":"ABF91465BA3AF87164951301BDB1CA47B768504B",
-      "PubKey":{
-         "type":"tendermint/PubKeyEd25519",
-         "value":"66pFX35wrd/nXwncpvtViuJ8UhOXKp32oxOSDH2qC1E="
-      },
-      "VotingPower":"10"
-   }
-}
+{"NodeInfo":{"protocol_version":{"p2p":"8","block":"11","app":"0"},"id":"904ee3c96547fb33c5e3112bdd5d292f2c53efd2","listen_addr":"tcp://0.0.0.0:26656","network":"realionetworktest_2022-1","version":"0.34.19","channels":"40202122233038606100","moniker":"realio-val-1","other":{"tx_index":"on","rpc_address":"tcp://0.0.0.0:26657"}},"SyncInfo":{"latest_block_hash":"0725BD0D5802C85917C94024D4C704DEBFB6E11F807DD0EE40E993C7F4F8E47C","latest_app_hash":"553BDF06736EA04584B89257E65DA5A385160F0C7FF9FB03DD8CB940E8AA5049","latest_block_height":"580978","latest_block_time":"2022-09-25T15:53:06.040173319Z","earliest_block_hash":"267AC75E85FE5E68DB927D8D4C3DFFE68C1AC9746F5DAE6C10D73B7B428CBFC2","earliest_app_hash":"E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855","earliest_block_height":"1","earliest_block_time":"2022-08-22T14:04:58.282183469Z","catching_up":false},"ValidatorInfo":{"Address":"F137086F1A90EB4AB4696980F11F1FED703E8C00","PubKey":{"type":"tendermint/PubKeyEd25519","value":"yYG/hdRMITlG/4AC4ASA9pQMprHPor5ttE+WdZbXCew="},"VotingPower":"1000000"}}
 ```
 
 If you see that the `catching_up` value is `false` under the `sync_info`, it means that you are fully synced. If it
@@ -272,14 +241,14 @@ realio-networkd status 2>&1 | jq "{catching_up: .SyncInfo.catching_up}"
 # }
 ```
 
-After your node is fully synced, you can consider running your full node as a [validator node](../04-validators/02-setup.md).
+After your node is fully synced, you can consider running your full node as a [validator node](/validators/setup).
 
 ## 9. (Optional) Configure the background service
 
-To allow your `realio network node` instance to run in the background as a service you need to execute the following command
+To allow your `realio network node` instance to run in the background as a service you need to execute the following command:
 
 ```bash
-vim /etc/systemd/system/realio-network.service > /dev/null <<EOF
+vim /etc/systemd/system/realio-network.service
 [Unit]
 Description=Realio Network Full Node
 After=network-online.target
@@ -293,16 +262,16 @@ LimitNOFILE=4096
 
 [Install]
 WantedBy=multi-user.target
-EOF
+
 ```
 
-Once you have successfully created the service, you need to enable it. You can do so by running
+Once you have successfully created the service, you need to enable it. You can do so by running:
 
 ```bash
 systemctl enable realio-networkd
 ```
 
-After this, you can run it by executing
+After this, you can run it by executing:
 
 ```bash
 systemctl start realio-networkd
@@ -332,7 +301,7 @@ $ systemctl status realio-networkd
 ```
 
 #### Check the node logs
-If you want to see the current logs of the node, you can do so by running
+If you want to see the current logs of the node, you can do so by running the command:
 
 ```bash
 journalctl -u realio-networkd -f
@@ -356,5 +325,5 @@ $ systemctl status realio-networkd
  Main PID: 160776 (code=exited, status=143)
 ```
 
-## 9. Cosmovisor
+## 10. Cosmovisor
 In order to do automatic on-chain upgrades we will be using cosmovisor. Please check out [Using Cosmovisor](04-cosmovisor.md) for information on how to set this up.

@@ -7,7 +7,7 @@ sidebar_position: 5
 # Cosmovisor 
 The Cosmos team provides a tool named _Cosmovisor_ that allows your node to perform some automatic operations when needed. This is particularly useful when dealing with on-chain upgrades, because Cosmovisor can help you by taking care of downloading the updated binary and restarting the node for you.  
 
-If you want to learn how to setup Cosmovisor inside your full or validator node, please follow the guide below. 
+If you want to learn how to setup Cosmovisor inside your full node or validator node, please follow the guide below. 
 
 ## Setup
 ### 1. Downloading Cosmovisor
@@ -67,20 +67,20 @@ Once you're in, we suggest you to set the following values:
 ```
 export DAEMON_HOME=$HOME/.realio-network
 export DAEMON_NAME=realio-networkd
-export DAEMON_ALLOW_DOWNLOAD_BINARIES=true
+export DAEMON_ALLOW_DOWNLOAD_BINARIES=false
 export DAEMON_RESTART_AFTER_UPGRADE=true
 export UNSAFE_SKIP_BACKUP=false
 ```
 
 **IMPORTANT**: If you don't have much free disk space, please set `UNSAFE_SKIP_BACKUP=true` to avoid your node failing the upgrade due to insufficient disk space when creating the backup.
 
-Once you're done, please reload the `~/.profile` file by running 
+Once you're done, please reload the `~/.profile` file by running:
 
 ```shell
 source ~/.profile
 ```
 
-You can verify the values set by running 
+You can verify the values set by running: 
 
 ```
 echo $DAEMON_NAME
@@ -88,7 +88,7 @@ echo $DAEMON_NAME
 
 If this outputs `realio-networkd` you are ready to go.
 
-### 3. Copying realio network files in the proper folders
+### 3. Copying Realio Network files in the proper folders
 In order to work properly, Cosmovisor needs the `realio-networkd` binary to be placed in the `~/.realio-network/cosmovisor/genesis/bin` folder. To do this you can simply run the following command: 
 
 ```shell
@@ -115,7 +115,7 @@ cosmovisor start
 If you are running your node using a service, you need to update your service file to use `cosmovisor` instead of `realio-networkd`. To do this you can simply run the following command:
 
 ```shell
-sudo tee /etc/systemd/system/realio-networkd.service > /dev/null <<EOF  
+sudo tee /etc/systemd/system/realio-networkd.service
 [Unit]
 Description=Realio Network Full Node
 After=network-online.target
@@ -135,7 +135,7 @@ Environment="UNSAFE_SKIP_BACKUP=false"
 
 [Install]
 WantedBy=multi-user.target
-EOF
+
 ```
 
 **IMPORTANT**: If you don't have much free disk space, please set `UNSAFE_SKIP_BACKUP=true` to avoid your node failing the upgrade due to insufficient disk space when creating the backup.

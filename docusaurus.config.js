@@ -45,7 +45,8 @@ const config = {
         title: '',
         logo: {
           alt: 'Realio Network Logo',
-          src: 'img/realio_logo.png',
+          src: 'img/realio_logo_light.png',
+          srcDark: 'img/realio_logo.png'
         },
         items: [
           {
@@ -81,6 +82,10 @@ const config = {
                 href: 'https://twitter.com/Realio_Network',
               },
               {
+                label: 'Discord',
+                href: 'https://discord.gg/BUtSwwUF',
+              },
+              {
                 label: 'Telegram',
                 href: 'https://t.me/realio_fund',
               },
@@ -99,7 +104,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://bitbucket.org/realio/realio-network-docs',
+                href: 'https://github.com/realiotech/realio-network-docs',
               },
             ],
           },
