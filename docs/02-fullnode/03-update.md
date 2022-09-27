@@ -43,12 +43,12 @@ The following instructions explain how to **manually upgrade** the node:
 :::tip Select the version you need  
 The above commands checks out the latest release that has been tagged on our repository. If you wish to check out a specific version instead, use the following commands:
 
-1. List all the tags
+1. List all the tags:
    ```bash
    git tags --list
    ```
 
-2. Checkout the tag you want
+2. Checkout the tag you want:
    ```bash
    git checkout tags/<tag>
    # Example: git checkout tags/v4.1.0
@@ -75,9 +75,9 @@ cosmovisor version
 :::
 
 ## Automatic upgrade (with Cosmovisor)
-Here below it is explained how to prepare your node to be able to **automatically upgrade** itself.
+Below it is explained how to prepare your node to be able to **automatically upgrade** itself.
 
-1.Cosmovisor handles the automatic upgrades that happens after the _upgrade governance proposal_ passes.
+Cosmovisor handles the automatic upgrades that happens after the _upgrade governance proposal_ passes.
 If during an upgrade your node doesn't have enough space left or if the cosmovisor backup it is taking too much
 time, you can do the following:
 1. Open your `realio-networkd` editor:

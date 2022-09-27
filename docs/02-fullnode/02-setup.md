@@ -5,20 +5,14 @@ sidebar_position: 2
 ---
 
 # Full node setup
-Following you will find the instructions on how to manually setup your Realio Network full node.
+Below you will find the instructions on how to manually setup your Realio Network full node.
 
 :::warning Requirements
-Before starting, make sure you read the [overview](overview) to make sure your hardware meets the needed
+Before starting, make sure you read the [overview](overview) to make sure your hardware meets the necessary
 requirements.
 :::
 
 ## 1. Build the software
-
-:::tip Choose your DB backend
-Before installing the software, a consideration must be done.
-
-By default, Realio Network uses [LevelDB](https://github.com/google/leveldb) as its database backend engine. 
-:::
 
 In your terminal, run the following:
 
@@ -67,7 +61,7 @@ private node key instead of having to create a new node.
 
 In order to provide a custom seed to your private key, you can do as follows:
 
-1. Get a new random seed by running
+1. Get a new random seed by running:
    ```shell
    realio-networkd keys add node --dry-run
 
@@ -89,7 +83,7 @@ In order to provide a custom seed to your private key, you can do as follows:
    ```
    This will create a new key **without** adding it to your keystore, and output the underlying seed.
 
-2. Run the `init` command using the `--recover` flag.
+2. Run the `init` command using the `--recover` flag:
    ```shell
    realio-networkd init <your_node_moniker> --recover --chain-id <the_chain_id>
    ```
@@ -117,21 +111,21 @@ telling how the genesis block of the network should look like.
 
 ## 4. Setup seeds
 
-The next thing you have to do now is telling your node how to connect with other nodes that are already present on the
-network. In order to do so, we will use the `seeds` and `persistent_peers` values of the `~/.realio-network/config/config.toml`
+Next, you'll need to tell your node how to connect with other nodes that are already present on the network. 
+In order to do so, you will use the `seeds` and `persistent_peers` values of the `~/.realio-network/config/config.toml`
 file.
 
-Seed nodes are a particular type of nodes present on the network. Your fullnode will connect to them, and they will
-provide it with a list of other fullnodes that are present on the network. Then, your fullnode will automatically
+Seed nodes are a particular type of nodes present on the network. Your full node will connect to them, and they will
+provide it with a list of other full nodes that are present on the network. Then, your fullnode will automatically
 connect to such nodes. 
 - If you are looking for **testnet** seeds please check here: [Testnet seeds](/testnet/join-public/seeds)
 
 ## 5. State sync
 
-Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/master/nodes/state-sync.html#configure-state-sync). This feature allows new nodes to
+The Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/master/nodes/state-sync.html#configure-state-sync). This feature allows new nodes to
 sync with the chain extremely fast, by downloading snapshots created by other full nodes.
 Here below, you can find the links to check for the correct procedure depending on which network you're setting up your node:
-- If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync);
+- If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync).
 
 ### Changing state sync height
 If you change the state sync height, you will need to perform these actions before trying to sync again:
@@ -140,7 +134,7 @@ If you change the state sync height, you will need to perform these actions befo
     2. Run `realio-networkd unsafe-reset-all`;
     3. Restore the `priv_validator_state.json` file.
     4. Restart the node.
-* If you're running a *full node*:
+* If you're running a **full node**:
     1. Run `realio-networkd unsafe-reset-all`;
     2. Restart the node.
     
@@ -173,7 +167,7 @@ You can find out more about pruning [here](01-overview.mdx#understanding-pruning
 
 Now that everything is in place to start the node, the last thing to do is to open up the proper ports.
 
-Your node uses vary different ports to interact with the rest of the chain. Particularly, it relies on:
+Your node uses various different ports to interact with the rest of the chain. Particularly, it relies on:
 
 - port `26656` to listen for incoming connections from other nodes;
 - port `26657` to expose the Tendermint RPC service to clients.
@@ -251,7 +245,7 @@ After your node is fully synced, you can consider running your full node as a [v
 
 ## 9. (Optional) Configure the background service
 
-To allow your `realio network node` instance to run in the background as a service you need to execute the following command
+To allow your `realio network node` instance to run in the background as a service you need to execute the following command:
 
 ```bash
 vim /etc/systemd/system/realio-network.service
@@ -271,13 +265,13 @@ WantedBy=multi-user.target
 
 ```
 
-Once you have successfully created the service, you need to enable it. You can do so by running
+Once you have successfully created the service, you need to enable it. You can do so by running:
 
 ```bash
 systemctl enable realio-networkd
 ```
 
-After this, you can run it by executing
+After this, you can run it by executing:
 
 ```bash
 systemctl start realio-networkd
@@ -331,5 +325,5 @@ $ systemctl status realio-networkd
  Main PID: 160776 (code=exited, status=143)
 ```
 
-## 9. Cosmovisor
+## 10. Cosmovisor
 In order to do automatic on-chain upgrades we will be using cosmovisor. Please check out [Using Cosmovisor](04-cosmovisor.md) for information on how to set this up.

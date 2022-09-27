@@ -139,8 +139,8 @@ inbound connections that they can accept. Once that limit is exceed, the nodes w
 
 In order to solve this problem, there are two alternative way:
 
-1. use a seed node instead of a persistent peer, **OR**
-2. use different persistent peers.
+1. Use a seed node instead of a persistent peer, **OR**
+2. Use different persistent peers
 
 ### Using a seed node
 
@@ -273,7 +273,7 @@ Currently, pruning everything looks to be unsafe and unstable so we suggest to _
 If you run into this problem while you're syncing your node, probably you are using a wrong realio-networkd binary version.
 If so, please ask inside our discord server validator channel what's the correct version/versions to use in order to sync the node correctly.
 
-##### NOTE
+##### Note:
 
 Previous delegators will still be able to unbond from a tombstoned validator.
 

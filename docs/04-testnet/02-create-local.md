@@ -86,7 +86,7 @@ Please refer to the [_Init Script_](https://github.com/realiotech/realio-network
     cat $HOME/.realio-network/config/genesis.json | jq '.app_state["bank"]["denom_metadata"]=[{ "description": "The native token of the Realio Network", "denom_units": [ { "denom": "ario", "exponent": 0, "aliases": [ "attorio" ] }, { "denom": "rio", "exponent": 18, "aliases": [] } ], "base": "ario", "display": "rio", "name": "Realio Network Rio", "symbol": "rio" }, { "description": "Realio Security Token", "denom_units": [ { "denom": "arst", "exponent": 0, "aliases": [ "attorst" ] }, { "denom": "rst", "exponent": 18, "aliases": [] } ], "base": "arst", "display": "rst", "name": "Realio Security Token", "symbol": "rst" }]' > $HOME/.realio-network/config/tmp_genesis.json && mv $HOME/.realio-network/config/tmp_genesis.json $HOME/.realio-network/config/genesis.json
    ```
    
-6. Add genesis account, create and collect gen txs
+6. Add genesis account, create and collect gen txs:
    ```bash
    realio-networkd add-genesis-account $KEY 10000000000000000000000000ario
    realio-networkd gentx $KEY 100000000000000000000000ario --keyring-backend $KEYRING --chain-id $CHAINID

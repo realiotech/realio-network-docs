@@ -13,7 +13,7 @@ The following seed nodes are to be used when configuring a full node for the **t
 In order to use this feature, you will have to edit a couple of things inside your `~/.realionetwork/config/config.toml` file,
 under the `statesync` section:
 
-1. Enable state sync by setting `enable=true`;
+1. Enable state sync by setting `enable=true`
 
 2. Set the RPC addresses from where to get the snapshots using the `rpc_servers` field to
    `seed-1.test.realio.network:26657,seed-2.test.realio.network:26657`.   
@@ -33,8 +33,8 @@ under the `statesync` section:
        # curl -s http://seed-1.test.realio.network:26657/commit?height=100000 | jq "{height: .result.signed_header.header.height, hash: .result.signed_header.commit.block_id.hash}"
        ```
 
-    1. Now that you have a trusted height and block hash, use those values as the `trust_height` and `trust_hash` values. Also,
-       make sure they're the right values for the RealioNetwork version you're starting to synchronize:
+    - Now that you have a trusted height and block hash, use those values as the `trust_height` and `trust_hash` values. Also,
+       make sure they're the right values for the Realio Network version you're starting to synchronize:
 
        | **State sync height range** | **RealioNetwork version** |
              |:--------------------------|:---------------------------|

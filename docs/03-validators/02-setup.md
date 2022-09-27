@@ -5,7 +5,7 @@ sidebar_label: Setup
 slug: setup
 ---
 
-# Become a RealioNetwork validator
+# Become a Realio Network validator
 [Validators](01-overview.md) are responsible for committing new blocks to the blockchain through voting.
 A validator's stake is slashed if they become unavailable or sign blocks at the same height. Please read about
 [Sentry Node Architecture](validator-faq#how-can-validators-protect-themselves-from-denial-of-service-attacks) to protect your node from DDOS attacks and to ensure high-availability.
@@ -14,20 +14,20 @@ A validator's stake is slashed if they become unavailable or sign blocks at the 
 If you want to become a validator for the `mainnet`, you should [research security](/mainnet/overview).
 :::
 
-## 1. Run a fullnode
-To become a validator, you must first have `realio-networkd` installed and be able to run a fullnode. You can
-first [setup your fullnode](/fullnode/overview) if you haven't yet.
+## 1. Run a full node
+To become a validator, you must first have `realio-networkd` installed and be able to run a full node. You can
+first [setup your full node](/fullnode/overview) if you haven't yet.
 
-The rest of the documentation will assume you have followed our instructions and have successfully set up a fullnode.
+The rest of the documentation will assume you have followed our instructions and have successfully set up a full node.
 
-:::tip Not enough funds? Google Cloud can help you
+:::tip
 Running a validator node should be done on a separate machine, not your local computer. This is due to the fact that
 validators need to be constantly running to avoid getting slashed (and thus loosing funds). We highly recommend setting
 up a local machine that can run 24/7, even a Raspberry can do the job.
 :::
 
 ## 2. Create your validator
-In order to create a validator, you need to have to create a local wallet first. This will be used in order to hold the
+In order to create a validator, you need to create a local wallet first. This will be used in order to hold the
 tokens that you will later delegate to your validator node, allowing him to properly work. In order to create this
 wallet, please run:
 
@@ -152,7 +152,7 @@ When you query the node status with `realio-networkd status`, it includes the va
 
 You should now see your validator in one of the Realio Network explorers. You are looking for the `bech32` encoded `operator address` starts with `realiovaloper`. It is another representation of your `<key_name>` that you have used to create this validator.
 
-To show the `operator address`, you can run
+To show the `operator address`, you can run:
 
 ```bash
 realio-networkd keys show <key_name> -a --bech val

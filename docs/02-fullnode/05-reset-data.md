@@ -20,6 +20,6 @@ Your node is now in a pristine state while keeping the original `priv_validator.
 Make sure that every node has a unique `priv_validator.json`. Do not copy the `priv_validator.json` from an old node to multiple new nodes. Running two nodes with the same `priv_validator.json` will cause you to **double sign**.  
 :::
 
-After the reset, you can sync back your node with state-sync, check how depending you are doing this on:
+After the reset, you can sync back your node with state-sync. Click the appropriate link below for directions.
 - [Testnet](/testnet/join-public/state-sync)
 - [Mainnet](/mainnet/overview)

@@ -11,13 +11,13 @@ The Realio Network is designed as a multi-chain layer 1 Web3 ecosystem focused o
 Inside this documentation you will find all the instructions in order to:
 
 - Setup a full Realio Network node 
-- Run a Realio Network validator earning block rewards while securing the chain;
+- Run a Realio Network validator earning block rewards while securing the chain
 - Testnet information
-- Mainnet information (soon)
+- Mainnet information coming Q4 2022
 
 
-To get started, use the navigation bar to move through the pages.
+To get started, use the navigation bar on the left to move through the pages.
 
 :::tip WELCOME
-Welcome to Realio Network!
+Welcome to the Realio Network!
 :::

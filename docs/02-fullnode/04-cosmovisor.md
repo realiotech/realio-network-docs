@@ -7,7 +7,7 @@ sidebar_position: 5
 # Cosmovisor 
 The Cosmos team provides a tool named _Cosmovisor_ that allows your node to perform some automatic operations when needed. This is particularly useful when dealing with on-chain upgrades, because Cosmovisor can help you by taking care of downloading the updated binary and restarting the node for you.  
 
-If you want to learn how to setup Cosmovisor inside your full or validator node, please follow the guide below. 
+If you want to learn how to setup Cosmovisor inside your full node or validator node, please follow the guide below. 
 
 ## Setup
 ### 1. Downloading Cosmovisor
@@ -74,13 +74,13 @@ export UNSAFE_SKIP_BACKUP=false
 
 **IMPORTANT**: If you don't have much free disk space, please set `UNSAFE_SKIP_BACKUP=true` to avoid your node failing the upgrade due to insufficient disk space when creating the backup.
 
-Once you're done, please reload the `~/.profile` file by running 
+Once you're done, please reload the `~/.profile` file by running:
 
 ```shell
 source ~/.profile
 ```
 
-You can verify the values set by running 
+You can verify the values set by running: 
 
 ```
 echo $DAEMON_NAME
@@ -88,7 +88,7 @@ echo $DAEMON_NAME
 
 If this outputs `realio-networkd` you are ready to go.
 
-### 3. Copying realio network files in the proper folders
+### 3. Copying Realio Network files in the proper folders
 In order to work properly, Cosmovisor needs the `realio-networkd` binary to be placed in the `~/.realio-network/cosmovisor/genesis/bin` folder. To do this you can simply run the following command: 
 
 ```shell
