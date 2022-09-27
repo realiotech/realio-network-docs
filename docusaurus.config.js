@@ -25,7 +25,7 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           sidebarCollapsible: true,
-          editUrl: 'https://bitbucket.org/realio/realio-network-docs',
+          editUrl: 'https://github.com/realiotech/realio-network-docs',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -56,7 +56,7 @@ const config = {
             label: 'Documentation',
           },
           {
-            href: 'https://bitbucket.org/realio/realio-network-docs',
+            href: 'https://github.com/realiotech/realio-network-docs',
             label: 'GitHub',
             position: 'right',
           },
