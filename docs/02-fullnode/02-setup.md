@@ -65,21 +65,19 @@ In order to provide a custom seed to your private key, you can do as follows:
    ```shell
    realio-networkd keys add node --dry-run
 
-   # Example
-   # realio-networkd keys add node --dry-run
-   # - name: node
-   #   type: local
-   #   address: realio126cw9j2wy099lttz2qx0qds6k7t4kdea5ualh9
-   #   pubkey: realiopub1addwnqfpqdpfv4lh0vqjvmu43spz4lq0l92qret9hv6007j4r28z05wuthw2jz3frd4
-   #   mnemonic: ""
-   #   threshold: 0
-   #   pubkeys: []
-   #
-   #
-   # **Important** write this mnemonic phrase in a safe place.
-   # It is the only way to recover your account if you ever forget your password.
-   #
-   # sort curious village display voyager oppose dice idea mutual inquiry keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
+    # Example
+    # realio-networkd keys add node --dry-run
+    # - name: node
+    #   type: local
+    #   address: realio1r0enplsg8sxf44nsx0tehs80garxju98kdyegs
+    #   pubkey: '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"A95JbKv+qWRcxFzJ6xB/loe3jb8OcBtTLyOYZeAGjoC6"}'
+    #   mnemonic: ""
+    #
+    #
+    # **Important** write this mnemonic phrase in a safe place.
+    # It is the only way to recover your account if you ever forget your password.
+    #
+    # sort draw stumble motor fuel cement grain drip keep swim team direct tired pink clinic figure tiny december giant obvious clump chest
    ```
    This will create a new key **without** adding it to your keystore, and output the underlying seed.
 
@@ -87,7 +85,7 @@ In order to provide a custom seed to your private key, you can do as follows:
    ```shell
    realio-networkd init <your_node_moniker> --recover --chain-id <the_chain_id>
    ```
-   You can choose any `moniker` value you like. It will be saved in the `config.toml` under the `.realio-network/` working
+   You can choose any `moniker` value you like. It is a public name for the node such as 'world-node-1', and will be saved in the `config.toml` under the `.realio-network/` working
    directory.
 
 3. Insert the previously outputted secret recovery phrase (mnemonic phrase):
@@ -115,14 +113,15 @@ Next, you'll need to tell your node how to connect with other nodes that are alr
 In order to do so, you will use the `seeds` and `persistent_peers` values of the `~/.realio-network/config/config.toml`
 file.
 
-Seed nodes are a particular type of nodes present on the network. Your full node will connect to them, and they will
-provide it with a list of other full nodes that are present on the network. Then, your fullnode will automatically
-connect to such nodes. 
+A seed node is a node who relays the addresses of other peers which they know of. These nodes constantly crawl the 
+network to try to get more peers. The addresses which the seed node relays get saved into a local address book. Once 
+these are in the address book, you will connect to those addresses directly. 
+
 - If you are looking for **testnet** seeds please check here: [Testnet seeds](/testnet/join-public/seeds)
 
 ## 5. State sync
 
-The Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/master/nodes/state-sync.html#configure-state-sync). This feature allows new nodes to
+The Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/v0.34/tendermint-core/state-sync.html). This feature allows new nodes to
 sync with the chain extremely fast, by downloading snapshots created by other full nodes.
 Here below, you can find the links to check for the correct procedure depending on which network you're setting up your node:
 - If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync).
@@ -182,7 +181,7 @@ A part from those, it also uses:
 While opening any ports are optional, it is beneficial to the whole network if
 you open port `26656`. This would allow new nodes to connect to you as a peer, making them sync faster and the connections more reliable.
 
-For this reason, we will be opening port `26656` using `ufw`. \
+For this reason, we will be opening port `26656` using `ufw`.
 By default, `ufw` is not enabled. In order to enable it please run the following:
 
 ```bash
@@ -192,8 +191,14 @@ sudo ufw status
 # Turn on ssh if you need it
 sudo ufw allow ssh
 
-# Accept connections to port 26656 from any address
+# Accept connections on the ports listed above.
+# Some are optional depending on the usage of the node.
 sudo ufw allow from any to any port 26656 proto tcp
+sudo ufw allow from any to any port 26657 
+sudo ufw allow from any to any port 1317 
+sudo ufw allow from any to any port 9090
+sudo ufw allow from any to any port 8545
+sudo ufw allow from any to any port 8546
 
 # enable ufw
 sudo ufw enable
@@ -202,17 +207,24 @@ sudo ufw enable
 sudo ufw status
 ```
 
-If you also want to run a gRPC server, RPC node or the REST APIs, you also need to remember to open the related ports as
-well.
+A note on the optionality of some of the ports: You do not need to open 8545 for example if you are not exposing the 
+ETH JSON RPC. Our discord channel is a good place to ask about this. 
 
 ## 8. Start the Realio Network node
 
 After setting up the binary and opening up ports, you are now finally ready to start your node:
 
 ```bash
-# Run Realio Network full node
-# todo review basic start command
+# Run Realio Network full node basic start command
 realio-networkd start
+
+# Run Realio Network full node with options
+realio-networkd start --log_level info --minimum-gas-prices=0.0001ario --json-rpc.api eth,txpool,personal,web3....
+
+# help command
+realio-networkd start --help
+
+
 ```
 
 The full node will connect to the peers and start syncing. You can check the status of the node by executing:
@@ -248,14 +260,15 @@ After your node is fully synced, you can consider running your full node as a [v
 To allow your `realio network node` instance to run in the background as a service you need to execute the following command:
 
 ```bash
-vim /etc/systemd/system/realio-network.service
+sudo vim /etc/systemd/system/realio-network.service
+
 [Unit]
 Description=Realio Network Full Node
 After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$GOBIN/realio-networkd start
+ExecStart=/path/to/gobin/realio-networkd start
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
@@ -283,7 +296,7 @@ systemctl start realio-networkd
 If you want to see if the service is running properly, you can execute
 
 ```bash
-systemctl status realio-networkd
+sudo systemctl status realio-networkd
 ```
 
 If everything is running smoothly you should see something like
@@ -304,14 +317,19 @@ $ systemctl status realio-networkd
 If you want to see the current logs of the node, you can do so by running the command:
 
 ```bash
-journalctl -u realio-networkd -f
+sudo journalctl -u realio-networkd -f
+```
+
+If you do not see any log output, and the status command above returns no errors, try restarting the journalctl daemon:
+```bash
+sudo systemctl restart systemd-journald
 ```
 
 #### Stopping the service
 If you wish to stop the service from running, you can do so by running
 
 ```bash
-systemctl stop realio-networkd
+sudo systemctl stop realio-networkd
 ```
 
 To check the successful stop, execute `systemctl status realio-networkd`. This should return

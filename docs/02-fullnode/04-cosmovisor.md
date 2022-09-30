@@ -59,7 +59,7 @@ Cosmovisor relies on the following environmental variables to work properly:
 To properly set those variables, we suggest you to edit the `~/.profile` file so that they are loaded when you log into your machine. To edit this file you can simply run 
 
 ```shell
-sudo nano ~/.profile
+vim ~/.profile
 ```
 
 Once you're in, we suggest you to set the following values: 
@@ -88,12 +88,11 @@ echo $DAEMON_NAME
 
 If this outputs `realio-networkd` you are ready to go.
 
-### 3. Copying Realio Network files in the proper folders
-In order to work properly, Cosmovisor needs the `realio-networkd` binary to be placed in the `~/.realio-network/cosmovisor/genesis/bin` folder. To do this you can simply run the following command: 
+### 3. Initializing Cosmovisor
+In order to work properly, Cosmovisor needs to initialize, and the `realio-networkd` binary to be placed in the `~/.realio-network/cosmovisor/genesis/bin` folder. To do this you can simply run the following command: 
 
 ```shell
-mkdir -p ~/.realio-network/cosmovisor/genesis/bin/
-cp $(which realio-networkd) ~/.realio-network/cosmovisor/genesis/bin/
+cosmovisor init $(which realio-networkd)
 ```
 
 To verify that you have setup everything correctly, you can run the following command: 
@@ -115,21 +114,22 @@ cosmovisor start
 If you are running your node using a service, you need to update your service file to use `cosmovisor` instead of `realio-networkd`. To do this you can simply run the following command:
 
 ```shell
-sudo tee /etc/systemd/system/realio-networkd.service
+sudo vim /etc/systemd/system/realio-networkd.service
+
 [Unit]
 Description=Realio Network Full Node
 After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which cosmovisor) start
+ExecStart=/path/to/cosmovisor/bin run start --json-rpc.api eth,txpool,personal,net,debug,web3
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
 
 Environment="DAEMON_HOME=$HOME/.realio-network"
 Environment="DAEMON_NAME=realio-networkd"
-Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=true"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
 Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
 Environment="UNSAFE_SKIP_BACKUP=false"
 

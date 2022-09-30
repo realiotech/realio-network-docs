@@ -88,7 +88,7 @@ Please refer to the [_Init Script_](https://github.com/realiotech/realio-network
    
 6. Add genesis account, create and collect gen txs:
    ```bash
-   realio-networkd add-genesis-account $KEY 10000000000000000000000000ario
+   realio-networkd add-genesis-account $KEY 10000000000000000000000000ario --keyring-backend $KEYRING --chain-id $CHAINID
    realio-networkd gentx $KEY 100000000000000000000000ario --keyring-backend $KEYRING --chain-id $CHAINID
    realio-networkd collect-gentxs
    ```

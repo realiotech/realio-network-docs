@@ -40,16 +40,16 @@ under the `statesync` section:
              |:--------------------------|:---------------------------|
        | `0 - 1235764`               | `v0.17.0`                 |
        
-Here is an example of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
-
-```toml
-enable = true
-
-rpc_servers = "seed-1.test.realio.network:26657,seed-2.test.realio.network:26657"
-trust_height = 16962
-trust_hash = "E8ED7A890A64986246EEB02D7D8C4A6D497E3B60C0CAFDDE30F2EE385204C314"
-trust_period = "336h0m0s"
-```
+    - Here is an example of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
+    
+      ```toml
+        enable = true
+    
+        rpc_servers = "seed-1.test.realio.network:26657,seed-2.test.realio.network:26657"
+        trust_height = 16962
+        trust_hash = "E8ED7A890A64986246EEB02D7D8C4A6D497E3B60C0CAFDDE30F2EE385204C314"
+        trust_period = "336h0m0s"
+      ```
 
 4. Add peers to `~/.realionetwork/config/config.toml` file:
 
