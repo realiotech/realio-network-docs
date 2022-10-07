@@ -107,7 +107,7 @@ When specifying commission parameters, the `commission-max-change-rate` is used 
 :::
 
 You can confirm that you are in the validator set by using a block explorer:
-- Testnet:  [Big Dipper](https://realio.network)
+- Testnet:  [Big Dipper](https://testnet-explorer.realio.network/)
 
 ## 3. Edit the validator description
 You can edit your validator's public description. This info is to identify your validator, and will be relied on by delegators to decide which validators to stake to. Make sure to provide input for every flag below. If a flag is not included in the command the field will default to empty (`--moniker` defaults to the machine name) if the field has never been set or remain the same if it has been set in the past.

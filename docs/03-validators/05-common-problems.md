@@ -180,7 +180,7 @@ Instead of using a seed node, you can also keep relying on persistent peers. In 
 /net_info
 ```
 
-For example, you can use the public RPC endpoint [here](https://realio.network).
+For example, you can use the public RPC endpoint [here](http://143.198.237.214:26657).
 
 From that page, you can see all the peers connected to that node. Their info is present inside the `peers` field, which contains a list of objects made as follows:
 
