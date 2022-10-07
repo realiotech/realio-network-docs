@@ -8,13 +8,17 @@ slug: endpoints
 # Endpoints
 Here below the list of all the useful endpoints you might need to interact with testnet data.
 
+## REST LCD
+
+`http://143.198.237.214:1317`
+
 ## RPC
-`https://realio.network`
+`http://143.198.237.214:26657`
 
-## REST & gRPC
+## ETH JSON RPC
 
-`https://realio.network`
+`http://143.198.237.214:8545`
 
-## JSON RPC
+## ETH WS
 
-`https://realio.network`
+`wss://143.198.237.214:8546`
