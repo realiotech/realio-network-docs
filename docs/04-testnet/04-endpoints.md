@@ -8,17 +8,20 @@ slug: endpoints
 # Endpoints
 Here below the list of all the useful endpoints you might need to interact with testnet data.
 
-## REST LCD
-
-`http://143.198.237.214:1317`
+Note that not all endpoints may be active right now on testnet.
 
 ## RPC
-`http://143.198.237.214:26657`
+
+`http://143.110.230.177:26657`
+
+## REST LCD
+
+`http://143.110.230.177:1317`
 
 ## ETH JSON RPC
 
-`http://143.198.237.214:8545`
+`http://143.110.230.177:8545`
 
 ## ETH WS
 
-`wss://143.198.237.214:8546`
+`wss://143.110.230.177:8546`
