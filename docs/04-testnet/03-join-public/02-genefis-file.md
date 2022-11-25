@@ -15,5 +15,5 @@ To connect to the testnet, you will need the corresponding genesis file of each 
 ```bash
 # Download the existing genesis file for the testnet
 # Replace <chain-id> with the id of the testnet you would like to join
-curl https://raw.githubusercontent.com/realiotech/testnets/master/realionetwork_1110-1/genesis.json > $HOME/.realio-network/config/genesis.json
+curl https://raw.githubusercontent.com/realiotech/testnets/master/realionetwork_1110-2/genesis.json > $HOME/.realio-network/config/genesis.json
 ```
