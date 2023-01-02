@@ -24,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v0.6.2
+git checkout tags/v0.6.3
 
 # Build the software
 # If you want to use the default database backend run
