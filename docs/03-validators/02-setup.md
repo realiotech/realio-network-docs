@@ -48,18 +48,9 @@ places inside other commands later.
 
 Once that you have created your local wallet, it's time to get some tokens to be used as the initial validator stake so
 that it can run properly. If you are setting up a validator inside one of our testnets, you can request some testnet
-tokens inside our [Discord](https://discord.gg/BUtSwwUF). Once you have joined, go inside the `#ask-tokens` channel and
-run the following command:
+tokens inside our [Discord](https://discord.gg/S9EjfDKQ). Once you have joined, go inside the `#testnet-tokens` channel and
+ask us for tokens. Be sure to post your node information (RPC address and Operator account address).
 
-```
-!send <your_address>
-```
-
-You can get your address by running:
-
-```shell
-realio-networkd keys show <key_name> -a
-```
 
 To run a validator node you need to first get your current validator public key that was created when you
 ran `realio-networkd init`. Your `realiovalconspub` (Realio Network Validator Consensus Pubkey) can be used to create a new validator by

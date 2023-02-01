@@ -13,7 +13,8 @@ Inside this documentation you will find all the instructions in order to:
 - Setup a full Realio Network node 
 - Run a Realio Network validator earning block rewards while securing the chain
 - Testnet information
-- Mainnet information coming Q4 2022
+- Developer information
+- Mainnet coming Q1 2023
 
 
 To get started, use the navigation bar on the left to move through the pages.

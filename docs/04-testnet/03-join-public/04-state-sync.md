@@ -15,9 +15,8 @@ under the `statesync` section:
 
 1. Enable state sync by setting `enable=true`
 
-2. Set the RPC addresses from where to get the snapshots using the `rpc_servers` field to
-   `aa194e9f9add331ee8ba15d2c3d8860c5a50713f:26657`.   
-   This is a Realio node that is set up to create periodic snapshots every 600 blocks;
+2. Set the RPC addresses from where to get the snapshots using the `rpc_servers` field:
+   - See Peer & Seeds information in order to get RPC addresses in our [discord group](/testnet/join-public/seeds)
 
 3. Get a trusted chain height, and the associated block hash. To do this, you will have to:
     - Get the current chain height by running:
@@ -36,11 +35,11 @@ under the `statesync` section:
     - Now that you have a trusted height and block hash, use those values as the `trust_height` and `trust_hash` values. Also,
        make sure they're the right values for the Realio Network version you're starting to synchronize:
 
-       | **State sync height range** | **RealioNetwork version** |
-             |:--------------------------|:---------------------------|
-       | `0 - 1235764`               | `v0.17.0`                 |
+       **State sync height range** | **RealioNetwork version** |
+    |:--------------------------|:---------------------------|
+       | `0 - 1235764`               | `v0.7.2`                 |
        
-    - Here is an example of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
+    - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
     
       ```toml
         enable = true
@@ -53,6 +52,15 @@ under the `statesync` section:
 
 4. Add peers to `~/.realionetwork/config/config.toml` file:
 
- ```toml
-persistent_peers = "aa194e9f9add331ee8ba15d2c3d8860c5a50713f@seed-1.test.realio.network:26656,......."
- ```
+:::tip
+
+Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+look for the #testnet-seeds-peers channel and ask the current members for one if needed.
+:::
+
+Add these seeds here to the `~/.realionetwork/config/config.toml` file
+
+```toml
+seeds = "....." 
+peers = "....."
+```

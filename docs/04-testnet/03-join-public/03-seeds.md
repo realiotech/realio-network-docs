@@ -6,13 +6,16 @@ slug: seeds
 ---
 
 # Seed nodes
-:::caution Testnet only   
-The following seed nodes are to be used when configuring a full node for the **testnet**. If you are looking for mainnet seed nodes, please refer to [this](/mainnet/overview) instead.
-:::
 
+:::tip 
+
+Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+look for the #testnet-seeds-peers channel and ask the current members for one if needed.
+:::
 
 Add these seeds here to the `~/.realionetwork/config/config.toml` file
 
 ```toml
-seeds = "aa194e9f9add331ee8ba15d2c3d8860c5a50713f@143.110.230.177:26656, 
+seeds = "....." 
+peers = "....."
 ```

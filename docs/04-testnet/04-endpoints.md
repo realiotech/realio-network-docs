@@ -10,18 +10,23 @@ Here below the list of all the useful endpoints you might need to interact with 
 
 Note that not all endpoints may be active right now on testnet.
 
+:::tip
+Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+look for the #testnet-seeds-peers channel and ask the current members for one if needed.
+:::
+
 ## RPC
 
-`http://143.110.230.177:26657`
+`<node ip address>:26657`
 
 ## REST LCD
 
-`http://143.110.230.177:1317`
+`<node ip address>:1317`
 
 ## ETH JSON RPC
 
-`http://143.110.230.177:8545`
+`<node ip address>:8545`
 
 ## ETH WS
 
-`wss://143.110.230.177:8546`
+`wss://<node ip address>:8546`
