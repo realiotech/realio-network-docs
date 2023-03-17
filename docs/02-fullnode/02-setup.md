@@ -24,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v0.7.2
+git checkout tags/v0.8.0-rc1
 
 # Build the software
 # If you want to use the default database backend run
@@ -43,10 +43,10 @@ realio-networkd version --long
 ...
 name: realionetwork
 server_name: realio-networkd
-version: 0.6.2
+version: 0.8.0-rc1
 commit: 97eb6314360efb874ce1b5bf96b97db771188b11
 build_tags: netgo,testnet
-go: go version go1.18.4 darwin/amd64
+go: go version go1.19 linux/amd64
 
 ```
 
@@ -260,7 +260,7 @@ After your node is fully synced, you can consider running your full node as a [v
 To allow your `realio network node` instance to run in the background as a service you need to execute the following command:
 
 ```bash
-sudo vim /etc/systemd/system/realio-network.service
+# sudo vim /etc/systemd/system/realio-network.service
 
 [Unit]
 Description=Realio Network Full Node
@@ -281,13 +281,13 @@ WantedBy=multi-user.target
 Once you have successfully created the service, you need to enable it. You can do so by running:
 
 ```bash
-systemctl enable realio-networkd
+systemctl enable realio-network
 ```
 
 After this, you can run it by executing:
 
 ```bash
-systemctl start realio-networkd
+systemctl start realio-network
 ```
 
 ### Service operations
@@ -296,14 +296,14 @@ systemctl start realio-networkd
 If you want to see if the service is running properly, you can execute
 
 ```bash
-sudo systemctl status realio-networkd
+sudo systemctl status realio-network
 ```
 
 If everything is running smoothly you should see something like
 
 ```bash
-$ systemctl status realio-networkd
-● realio-networkd.service - Realio Network Full Node
+$ systemctl status realio-network
+● realio-network.service - Realio Network Full Node
    Loaded: loaded (/etc/systemd/system/realio-networkd.service; enabled; vendor preset:
    Active: active (running) since Wed 2021-12-08 17:54:59 UTC; 3 sec ago
  Main PID: 160776 (realio-networkd)
@@ -317,7 +317,7 @@ $ systemctl status realio-networkd
 If you want to see the current logs of the node, you can do so by running the command:
 
 ```bash
-sudo journalctl -u realio-networkd -f
+sudo journalctl -u realio-network -f
 ```
 
 If you do not see any log output, and the status command above returns no errors, try restarting the journalctl daemon:
@@ -329,17 +329,17 @@ sudo systemctl restart systemd-journald
 If you wish to stop the service from running, you can do so by running
 
 ```bash
-sudo systemctl stop realio-networkd
+sudo systemctl stop realio-network
 ```
 
-To check the successful stop, execute `systemctl status realio-networkd`. This should return
+To check the successful stop, execute `systemctl status realio-network`. This should return
 
 ```bash
-$ systemctl status realio-networkd
-● realio-networkd.service - Realio Network Full Node
-   Loaded: loaded (/etc/systemd/system/realio-networkd.service; enabled; vendor preset: enabled)
+$ systemctl status realio-network
+● realio-network.service - Realio Network Full Node
+   Loaded: loaded (/etc/systemd/system/realio-network.service; enabled; vendor preset: enabled)
    Active: failed (Result: exit-code) since Wed 2021-12-08 17:54:59 UTC; 3 sec ago
-  Process: 160776 ExecStart=/root/go/bin/realio-networkd start (code=exited, status=143)
+  Process: 160776 ExecStart=/root/go/bin/realio-network start (code=exited, status=143)
  Main PID: 160776 (code=exited, status=143)
 ```
 

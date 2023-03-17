@@ -37,7 +37,7 @@ under the `statesync` section:
 
        **State sync height range** | **RealioNetwork version** |
     |:--------------------------|:---------------------------|
-       | `0 - 1235764`               | `v0.7.2`                 |
+       | `0 - 1235764`               | `v0.8.0-rc1`                 |
        
     - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
     
@@ -54,7 +54,7 @@ under the `statesync` section:
 
 :::tip
 
-Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/Nv9EUbRnKb). After joining,
 look for the #testnet-seeds-peers channel and ask the current members for one if needed.
 :::
 

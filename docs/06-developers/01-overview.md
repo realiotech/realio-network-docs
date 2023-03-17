@@ -20,4 +20,4 @@ Please find the following resources for in-depth information:
 ## Community
 Questions? Reach us on our community chat:
 
-* [Realio Network Discord](https://discord.gg/S9EjfDKQ)
+* [Realio Network Discord](https://discord.gg/Nv9EUbRnKb)

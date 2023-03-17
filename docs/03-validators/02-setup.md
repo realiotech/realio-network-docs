@@ -48,7 +48,7 @@ places inside other commands later.
 
 Once that you have created your local wallet, it's time to get some tokens to be used as the initial validator stake so
 that it can run properly. If you are setting up a validator inside one of our testnets, you can request some testnet
-tokens inside our [Discord](https://discord.gg/S9EjfDKQ). Once you have joined, go inside the `#testnet-tokens` channel and
+tokens inside our [Discord](https://discord.gg/Nv9EUbRnKb). Once you have joined, go inside the `#testnet-tokens` channel and
 ask us for tokens. Be sure to post your node information (RPC address and Operator account address).
 
 

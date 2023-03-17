@@ -19,4 +19,4 @@ Seek legal advice if you intend to run a validator.
 ## Community
 Discuss the finer details of being a validator on our community chat:
 
-* [Validators Chat](https://discord.gg/BUtSwwUF)
+* [Validators Chat](https://discord.gg/Nv9EUbRnKb)

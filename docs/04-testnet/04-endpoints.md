@@ -11,7 +11,7 @@ Here below the list of all the useful endpoints you might need to interact with 
 Note that not all endpoints may be active right now on testnet.
 
 :::tip
-Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+Peers & seeds are easy to find on our [Discord Group](https://discord.gg/Nv9EUbRnKb). After joining,
 look for the #testnet-seeds-peers channel and ask the current members for one if needed.
 :::
 

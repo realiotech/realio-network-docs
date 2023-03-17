@@ -9,7 +9,7 @@ slug: seeds
 
 :::tip 
 
-Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/S9EjfDKQ). After joining,
+Testnet Peers & seeds are easy to find on our [Discord Group](https://discord.gg/Nv9EUbRnKb). After joining,
 look for the #testnet-seeds-peers channel and ask the current members for one if needed.
 :::
 
