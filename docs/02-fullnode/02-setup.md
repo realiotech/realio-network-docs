@@ -24,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v0.8.0
+git checkout tags/v0.8.0-rc2
 
 # Build the software
 # If you want to use the default database backend run
@@ -43,10 +43,9 @@ realio-networkd version --long
 ...
 name: realionetwork
 server_name: realio-networkd
-version: 0.8.0
-commit: 97eb6314360efb874ce1b5bf96b97db771188b11
-build_tags: netgo,testnet
-go: go version go1.19 linux/amd64
+version: 0.8.0-rc2
+commit: 4f1a74abc74a34094a67c3ef479739dacc78ae42
+go: go version go1.20 linux/amd64
 
 ```
 
@@ -106,6 +105,7 @@ In order to provide a custom seed to your private key, you can do as follows:
 To connect to an existing network, or start a new one, a genesis file is required. The file contains all the settings
 telling how the genesis block of the network should look like.
  - If you are setting up a **testnet** node refer to this [procedure](/testnet/join-public/genesis-file)
+ - If you are setting up a **mainnet** node refer to this [procedure](/mainnet/genesis-file)
 
 ## 4. Setup seeds
 
@@ -118,6 +118,7 @@ network to try to get more peers. The addresses which the seed node relays get s
 these are in the address book, you will connect to those addresses directly. 
 
 - If you are looking for **testnet** seeds please check here: [Testnet seeds](/testnet/join-public/seeds)
+- If you are looking for **mainnet** seeds please check here: [Mainnet seeds](/mainnet/seeds)
 
 ## 5. State sync
 

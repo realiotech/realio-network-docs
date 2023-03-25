@@ -44,9 +44,9 @@ For this reason, there are different disk space that we recommend based on the p
 
 | Pruning strategy | Minimum disk space | Recommended disk space |
 |:----------------:|:------------------:|:----------------------:|
-|   `everything`   |       20 GB        |         40 GB          |
-|    `default`     |       80 GB        |         120 GB         |
-|    `nothing`     |       120 GB       |       \> 240 GB        |
+|   `everything`   |       20 GB        |         60 GB          |
+|    `default`     |       80 GB        |         160 GB         |
+|    `nothing`     |       120 GB       |       \> 300 GB        |
 
 Apart from disk space, the following requirements should be met:
 
@@ -64,13 +64,18 @@ In order to run a full node, you need to build `realio-networkd` which requires 
 
 This process depends on your working environment.
 
+**We officially support:**
+ - darwin/arm64
+ - darwin/x86_64
+ - linux/arm64
+ - linux/amd64
+
 <Tabs
 groupId="operating-systems"
 defaultValue="linux"
 values={[
 {label: 'Linux', value: 'linux'},
 {label: 'macOS', value: 'mac'},
-{label: 'Windows', value: 'win'},
 ]}>
 <TabItem value="linux">
 
