@@ -24,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v0.8.0-rc2
+git checkout tags/v0.8.0-rc4
 
 # Build the software
 # If you want to use the default database backend run
@@ -43,8 +43,8 @@ realio-networkd version --long
 ...
 name: realionetwork
 server_name: realio-networkd
-version: 0.8.0-rc2
-commit: 4f1a74abc74a34094a67c3ef479739dacc78ae42
+version: 0.8.0-rc4
+commit: 692d8ccbd4c229135445d82b51bd2dfd52224651
 go: go version go1.20 linux/amd64
 
 ```
