@@ -33,8 +33,8 @@ under the `statesync` section:
       make sure they're the right values for the Realio Network version you're starting to synchronize:
 
       **State sync height range** | **RealioNetwork version** |
-      |:--------------------------|:---------------------------|
-      | `0 - 1235764`               | `v0.8.0-rc4`              |
+      |:--------------------------|:--------------------------|
+      | `0 - 1235764`               | `v0.8.1`                  |
 
     - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
 
