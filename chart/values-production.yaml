@@ -49,11 +49,11 @@ ingress:
     traefik.ingress.kubernetes.io/redirect-permanent: "true"
   hosts:
     - host: docs.realio.network
-      paths: ['/']
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: realio-network-tls-prod
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
