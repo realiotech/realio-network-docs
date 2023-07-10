@@ -1,5 +1,8 @@
 RELEASE_NAME=realio-network-docs
 
+template:
+	helm template $(RELEASE_NAME) chart -f chart/values-production.yaml
+
 install:
 	helm upgrade --install $(RELEASE_NAME) chart
 
