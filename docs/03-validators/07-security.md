@@ -9,7 +9,7 @@ slug: security
 
 :::important
 
-The [Tendermint Validators Doc](https://docs.tendermint.com/v0.34/tendermint-core/validators.html) should be reviewed, especially for running mainnet nodes.
+The [CometBFT Validators Doc](https://docs.cometbft.com/v0.34/core/validators) should be reviewed, especially for running mainnet nodes.
 There is a wealth of information there including configuration options, security, production readiness, and more.
 
 :::

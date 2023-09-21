@@ -7,13 +7,13 @@ slug: validator-faq
 
 # Validator FAQ
 
-::: Warning Disclaimer: This is work in progress.
+:::warning Disclaimer: This is work in progress.
 Mechanisms and values are susceptible to change.
 :::
 
 ## General Concepts
 ### What is a validator?
-[The Realio Network](../..) is based on [Tendermint](https://docs.tendermint.com/v0.34/introduction/what-is-tendermint.html), which
+[The Realio Network](../..) is based on [CometBFT](https://docs.cometbft.com/v0.34/introduction/what-is-cometbft), which
 relies on a set of validators to secure the network. The role of validators is to run a full node and participate in
 consensus by broadcasting votes which contain cryptographic signatures signed by their private key. Validators commit
 new blocks in the blockchain and receive revenue in exchange for their work. They must also participate in governance by
@@ -32,11 +32,11 @@ A full node is a program that fully validates transactions and blocks of a block
 Of course, it is possible and encouraged for users to run full nodes even if they do not plan to be validators.
 
 ### What is a delegator?
-Delegators are Realio Network tokens holders who cannot, or do not want to run a validator themselves. Token holders can delegate Realio Network tokens to a validator and obtain a part of their revenue in exchange (for more detail on how revenue is distributed, see [**What is the incentive to stake?**](#what-is-the-incentive-to-stake?) and [**What are validators commission?**](#what-are-validators-commission?) sections below).
+Delegators are Realio Network tokens holders who cannot, or do not want to run a validator themselves. Token holders can delegate Realio Network tokens to a validator and obtain a part of their revenue in exchange (for more detail on how revenue is distributed, see [What is the incentive to stake?](#what-is-the-incentive-to-stake) and [What are validators commission?](#what-are-validators-commission) sections below).
 
 Because they share revenue with their validators, delegators also share risks. Should a validator misbehave, each of their delegators will be partially slashed in proportion to their delegated stake. This is why delegators should perform due diligence on validators before delegating, as well as spreading their stake over multiple validators.
 
-Delegators play a critical role in the system, as they are responsible for choosing validators. Being a delegator is not a passive role: delegators should actively monitor the actions of their validators and participate in governance. For more, read the [delegator's faq](https://cosmos.network/resources/delegators).
+Delegators play a critical role in the system, as they are responsible for choosing validators. Being a delegator is not a passive role: delegators should actively monitor the actions of their validators and participate in governance. For more, read the [delegator's faq](/delegators/delegator-faq).
 
 ## Becoming a Validator
 ### How to become a validator?

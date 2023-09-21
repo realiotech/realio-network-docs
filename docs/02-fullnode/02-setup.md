@@ -122,7 +122,7 @@ these are in the address book, you will connect to those addresses directly.
 
 ## 5. State sync
 
-The Realio Network has support for Tendermint's [state sync](https://docs.tendermint.com/v0.34/tendermint-core/state-sync.html). This feature allows new nodes to
+The Realio Network has support for CometBFT's [state sync](https://docs.cometbft.com/v0.34/core/state-sync). This feature allows new nodes to
 sync with the chain extremely fast, by downloading snapshots created by other full nodes.
 Here below, you can find the links to check for the correct procedure depending on which network you're setting up your node:
 - If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync).

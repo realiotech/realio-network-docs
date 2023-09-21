@@ -14,7 +14,6 @@ Inside this documentation you will find all the instructions in order to:
 - Run a Realio Network validator earning block rewards while securing the chain
 - Testnet information
 - Developer information
-- Mainnet coming Q1 2023
 
 
 To get started, use the navigation bar on the left to move through the pages.
