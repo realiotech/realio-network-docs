@@ -34,7 +34,7 @@ under the `statesync` section:
 
       **State sync height range** | **RealioNetwork version** |
       |:--------------------------|:--------------------------|
-      | `0 - 1235764`               | `v0.8.3`                  |
+      | `0 - 1235764`               | `v0.9.2`                  |
 
     - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
 
