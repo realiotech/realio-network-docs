@@ -54,7 +54,13 @@ def embed(text, prefix):
 def generate(prompt):
     r = requests.post(
         f"{OLLAMA_URL}/api/generate",
-        json={"model": CHAT_MODEL, "prompt": prompt, "stream": False},
+        json={
+            "model": CHAT_MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "think": False,
+            "options": {"num_predict": 400},
+        },
         timeout=180,
     )
     r.raise_for_status()
