@@ -8,70 +8,60 @@ on:
       - '*'
       - '**'
       - '!.github/**'
-      - '!.gitignore'
       - '!README.md'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '*'
-      - '**'
-      - '!.github/**'
       - '!.gitignore'
-      - '!README.md'
   workflow_dispatch:
-
-env:
-  IMAGE: registry.digitalocean.com/kubernetes-prod/realio-network-docs
-  MANIFEST: realio-network-docs/overlays/prod/deployment.yaml
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     environment: prod
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
-        if: github.event_name != 'pull_request'
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Login to Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
-          registry: registry.digitalocean.com
-          username: devops@realio.fund
-          password: ${{ secrets.DO_ACCESS_TOKEN }}
-      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+          registry: ${{ secrets.IMAGE_REGISTRY_URL }}
+          username: ${{ secrets.IMAGE_REGISTRY_USER }}
+          password: ${{ secrets.ACCESS_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: |
-            registry.digitalocean.com/kubernetes-prod/realio-network-docs:${{ github.sha }}-${{ github.run_number }}
-            registry.digitalocean.com/kubernetes-prod/realio-network-docs:latest
+          push: true
+          tags: ${{ secrets.IMAGE_REGISTRY_URL }}/${{ secrets.IMAGE_REPO }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}-${{ github.run_number }}
+          file: Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           provenance: false
           sbom: false
-
-  deploy:
+  update-gitops:
     needs: build
-    if: github.event_name != 'pull_request'
     environment: prod
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          repository: realiotech/gitops
-          ref: main
-          token: ${{ secrets.GITOPS_PAT }}
-      - name: Pin image tag for ArgoCD
-        env:
-          TAG: ${{ github.sha }}-${{ github.run_number }}
-        run: |
-          sed -i "s|image: .*|image: $IMAGE:$TAG|" "$MANIFEST"
-          if git diff --quiet; then
-            echo "$MANIFEST already at $TAG"
-            exit 0
-          fi
-          git config user.name github-actions-bot
-          git config user.email devops@realio.fund
-          git commit -am "realio-network-docs: update image tag to $TAG"
-          for i in 1 2 3; do
-            git pull --rebase && git push && exit 0
-            sleep $((i * 5))
-          done
-          exit 1
+    - name: Checkout gitops repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        token: ${{ secrets.GITOPS_PAT }}
+        repository: ${{ secrets.GITOPS_REPO }}
+        ref: main
+    - name: Update manifest
+      run: |
+        if cat ${{ secrets.MANIFEST_PATH }} | grep ${{ github.sha }}-${{ github.run_number }}; then
+          echo "Image tag already exists in the manifest"
+          exit 0
+        fi
+        sed -i 's|image: .*$|image: '"${{ secrets.IMAGE_REGISTRY_URL }}/${{ secrets.IMAGE_REPO }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}-${{ github.run_number }}"'|' ${{ secrets.MANIFEST_PATH }}
+        git config user.name 'github-actions-bot'
+        git config user.email '${{ secrets.IMAGE_REGISTRY_USER }}'
+        git add .
+        git commit -m 'Update image tag to ${{ github.sha }}-${{ github.run_number }}'
+        git pull --rebase
+        git push
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITOPS_PAT }}
