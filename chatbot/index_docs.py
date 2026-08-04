@@ -32,7 +32,7 @@ DOCS_DIR = os.environ.get("DOCS_DIR", os.path.join(SCRIPT_DIR, "..", "docs"))
 # docs.realio.network and realio-docs.decentrio.ventures). Set to an absolute
 # origin only if you want fully-qualified links in chat answers.
 DOCS_BASE_URL = os.environ.get("DOCS_BASE_URL", "")
-MAX_CHUNK_CHARS = 2500
+MAX_CHUNK_CHARS = 1200
 
 FRONTMATTER_RE = re.compile(r"^---\n.*?\n---\n", re.DOTALL)
 MDX_IMPORT_RE = re.compile(r"^\s*import .*$", re.MULTILINE)

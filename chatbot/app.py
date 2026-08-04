@@ -18,7 +18,7 @@ EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
 CHAT_MODEL = os.environ.get("CHAT_MODEL", "qwen3:8b")
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://127.0.0.1:6333")
 COLLECTION = os.environ.get("QDRANT_COLLECTION", "realio_docs")
-TOP_K = int(os.environ.get("TOP_K", "5"))
+TOP_K = int(os.environ.get("TOP_K", "3"))
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://realio-docs.decentrio.ventures")
 RATE_LIMIT_SECONDS = float(os.environ.get("RATE_LIMIT_SECONDS", "3"))
 
@@ -44,7 +44,7 @@ SYSTEM_PROMPT = (
 def embed(text, prefix):
     r = requests.post(
         f"{OLLAMA_URL}/api/embeddings",
-        json={"model": EMBED_MODEL, "prompt": f"{prefix}{text}"},
+        json={"model": EMBED_MODEL, "prompt": f"{prefix}{text}", "keep_alive": "30m"},
         timeout=60,
     )
     r.raise_for_status()
@@ -59,7 +59,8 @@ def generate(prompt):
             "prompt": prompt,
             "stream": False,
             "think": False,
-            "options": {"num_predict": 400},
+            "keep_alive": "30m",
+            "options": {"num_predict": 250, "num_ctx": 4096},
         },
         timeout=180,
     )
