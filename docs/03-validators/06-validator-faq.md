@@ -20,7 +20,7 @@ new blocks in the blockchain and receive revenue in exchange for their work. The
 voting on proposals. Validators are weighted according to their total stake.
 
 ### What is 'staking'?
-The Realio Network is a public Proof-Of-Stake (PoS) blockchain, meaning that the weight of validators is determined by the amount of staking tokens bonded as collateral. Thanks to the [multistaking](multistaking) module, this can be `RIO`, `RST`, or the ERC-20 token `DSTRX` — a given validator only accepts one of the three. These tokens can be self-delegated directly by the validator or delegated to them by other Realio Network tokens holders.
+The Realio Network is a public Proof-Of-Stake (PoS) blockchain, meaning that the weight of validators is determined by the amount of staking tokens (RIO,RST tokens) bonded as collateral. These tokens can be self-delegated directly by the validator or delegated to them by other Realio Network tokens holders.
 
 Any user in the system can declare their intention to become a validator by sending a `create-validator` transaction. From there, they become validator candidates.
 

@@ -13,13 +13,13 @@ If you want to learn how to setup Cosmovisor inside your full node or validator 
 ### 1. Downloading Cosmovisor
 To install the latest version of `cosmovisor`, run the following command:
 ```
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
+go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 ```
 
-To install a previous version, you can specify the version.
+To install a previous version, you can specify the version. 
 
 ```
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.6.0
+go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 ```
 
 You can also install from source by pulling the cosmos-sdk repository and switching to the correct version and building as follows:

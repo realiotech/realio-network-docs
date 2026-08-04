@@ -24,7 +24,7 @@ cd $HOME
 git clone https://github.com/realiotech/realio-network.git && cd realio-network
 
 # Checkout the correct tag
-git checkout tags/v1.7.0
+git checkout tags/v0.9.2
 
 # Build the software
 # If you want to use the default database backend run
@@ -43,9 +43,9 @@ realio-networkd version --long
 ...
 name: realionetwork
 server_name: realio-networkd
-version: 1.7.0
-commit: d5ec394460a09068b2ca053106e80a69af4e43d9
-go: go version go1.23 linux/amd64
+version: 0.9.2
+commit: 7fd9755884074f2a032ea89aed98117954597505
+go: go version go1.20 linux/amd64
 
 ```
 
@@ -54,7 +54,7 @@ go: go version go1.23 linux/amd64
 Configuration files and chain data will be stored inside the `$HOME/.realio-network` directory by default. In order to create
 this folder and all the necessary data we need to initialize a new full node using the `realio-network init` command.
 
-You are able to provide a custom seed when initializing your node. This will be
+Starting from `v0.15.0`, you are now able to provide a custom seed when initializing your node. This will be
 particularly useful because, in the case that you want to reset your node, you will be able to re-generate the same
 private node key instead of having to create a new node.
 
@@ -69,7 +69,7 @@ In order to provide a custom seed to your private key, you can do as follows:
     # - name: node
     #   type: local
     #   address: realio1r0enplsg8sxf44nsx0tehs80garxju98kdyegs
-    #   pubkey: '{"@type":"/cosmos.evm.v1.ethsecp256k1.PubKey","key":"A95JbKv+qWRcxFzJ6xB/loe3jb8OcBtTLyOYZeAGjoC6"}'
+    #   pubkey: '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"A95JbKv+qWRcxFzJ6xB/loe3jb8OcBtTLyOYZeAGjoC6"}'
     #   mnemonic: ""
     #
     #
@@ -122,7 +122,7 @@ these are in the address book, you will connect to those addresses directly.
 
 ## 5. State sync
 
-The Realio Network has support for CometBFT's [state sync](https://docs.cometbft.com/v0.38/core/state-sync). This feature allows new nodes to
+The Realio Network has support for CometBFT's [state sync](https://docs.cometbft.com/v0.34/core/state-sync). This feature allows new nodes to
 sync with the chain extremely fast, by downloading snapshots created by other full nodes.
 Here below, you can find the links to check for the correct procedure depending on which network you're setting up your node:
 - If you are setting up state-sync for the **testnet** follow the [State sync testnet procedure](/testnet/join-public/state-sync).

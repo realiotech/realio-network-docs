@@ -51,22 +51,7 @@ There are currently two faults that can result in the slashing of funds for a va
 To delegate, review our [step-by-step guide.](https://www.realio.fund/blog/realio-network-staking-guide)
 
 ### Can I delegate RIO to an RST validator or RST to RIO validator?
-No. Thanks to Realio Network's [multistaking](/validators/multistaking) module, there are 3 assets that can be
-staked: `RIO`, `RST` (both native) and `DSTRX` (an ERC-20 token) — but each validator only accepts delegations
-in one of them. You can only delegate RIO to a RIO validator, RST to an RST validator, and DSTRX to a DSTRX
-validator.
-
-### What is multistaking, and how do I delegate DSTRX?
-Multistaking is what lets Realio Network be secured by more than one asset. `RIO` and `RST` are delegated with
-the regular `staking` commands, while `DSTRX` (being an ERC-20 token) is delegated through the `multi-staking`
-module's EVM commands, e.g.:
-
-```bash
-realio-networkd tx multi-staking delegate-evm <validator-addr> <dstrx-contract-address> <amount> --from <key_name>
-```
-
-See the [Multistaking](/validators/multistaking) page for the full set of commands (including undelegating and
-redelegating DSTRX), and for how to do the same from a smart contract via the Multistaking precompile.
+No, you can only delegate RIO to a RIO validator and RST to a RST validator.
 
 ### What should I consider before selecting a validator?
 - Delegators are free to choose validators according to their own subjective criteria. This said criteria anticipated to be important include:
