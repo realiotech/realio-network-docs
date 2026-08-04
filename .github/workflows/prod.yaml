@@ -1,0 +1,47 @@
+name: prod
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '*'
+      - '**'
+      - '!.github/**'
+      - '!.gitignore'
+      - '!README.md'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '*'
+      - '**'
+      - '!.github/**'
+      - '!.gitignore'
+      - '!README.md'
+  workflow_dispatch:
+
+jobs:
+  build-only:
+    if: github.event_name == 'pull_request'
+    uses: realiotech/workflows/.github/workflows/docker.yaml@main
+    with:
+      DEPLOY: false
+      ENVIRONMENT: prod
+      PUSH: false
+      RUN_NUMBER: ${{ github.run_number }}
+      SHA: ${{ github.sha }}
+  build-and-deploy:
+    if: github.event_name != 'pull_request'
+    uses: realiotech/workflows/.github/workflows/docker.yaml@main
+    with:
+      DEPLOY: true
+      ENVIRONMENT: prod
+      IMAGE_NAME: realio-network-docs
+      MANIFEST_PATH: realio-network-docs/overlays/prod/deployment.yaml
+      PUSH: true
+      RUN_NUMBER: ${{ github.run_number }}
+      SHA: ${{ github.sha }}
+    secrets:
+      GITOPS_PAT: ${{ secrets.GITOPS_PAT }}
+      REGISTRY_PASSWORD: ${{ secrets.DO_REGISTRY_PASSWORD_PROD }}
