@@ -1,22 +1,10 @@
 RELEASE_NAME=realio-network-docs
+REGISTRY=registry.digitalocean.com/kubernetes-prod
 
-template:
-	helm template $(RELEASE_NAME) chart -f chart/values-production.yaml
-
-install:
-	helm upgrade --install $(RELEASE_NAME) chart
-
-install-production:
-	helm upgrade -n production --install $(RELEASE_NAME) chart -f chart/values-production.yaml
-
+# Local image build only. CI (.github/workflows/prod.yaml) builds the tag that
+# actually ships and pins it in the gitops repo for ArgoCD to sync.
 docker-build:
-	docker build -t registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest .
+	docker build -t $(REGISTRY)/$(RELEASE_NAME):latest .
 
 docker-push:
-	docker push registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest
-
-docker-tag-prod: docker-build
-	docker tag registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest registry.k8s.stage.realio.fund/$(RELEASE_NAME):prod
-
-docker-push-prod: docker-tag-prod
-	docker push registry.k8s.stage.realio.fund/$(RELEASE_NAME):prod
+	docker push $(REGISTRY)/$(RELEASE_NAME):latest
