@@ -1,0 +1,6 @@
+[Unit]
+Description=Reindex Realio docs into Qdrant
+
+[Service]
+Type=oneshot
+ExecStart=/root/realio-network-docs/chatbot/reindex.sh

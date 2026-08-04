@@ -16,6 +16,13 @@ const config = {
   organizationName: 'realiotech', // Usually your GitHub org/user name.
   projectName: 'realio-network-docs', // Usually your repo name.
 
+  scripts: [
+    { src: '/js/chatbot-widget.js', defer: true },
+  ],
+  stylesheets: [
+    '/css/chatbot-widget.css',
+  ],
+
   presets: [
     [
       'classic',
