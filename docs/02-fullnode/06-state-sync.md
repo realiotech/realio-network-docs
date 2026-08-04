@@ -7,7 +7,7 @@ slug: state-sync
 
 # State sync
 
-In order to use this feature, you will have to edit a couple of things inside your `~/.realionetwork/config/config.toml` file,
+In order to use this feature, you will have to edit a couple of things inside your `~/.realio-network/config/config.toml` file,
 under the `statesync` section:
 
 1. Enable state sync by setting `enable=true`
@@ -34,9 +34,9 @@ under the `statesync` section:
 
       **State sync height range** | **RealioNetwork version** |
       |:--------------------------|:--------------------------|
-      | `0 - 1235764`               | `v0.9.2`                  |
+      | `19195000+`               | `v1.7.0`                  |
 
-    - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realionetwork/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
+    - Here is an EXAMPLE (no not copy!) of what the `statesync` section of your `~/.realio-network/config/config.toml` file should look like in the end (the `trust_height` and `trust_hash` should contain your values instead):
 
       ```toml
         enable = true
@@ -47,7 +47,7 @@ under the `statesync` section:
         trust_period = "336h0m0s"
       ```
 
-4. Add peers to `~/.realionetwork/config/config.toml` file:
+4. Add peers to `~/.realio-network/config/config.toml` file:
 
 :::tip
 
@@ -55,7 +55,7 @@ Our discord group is a great source for getting peer information from the commun
 look for the #testnet-seeds-peers channel or the #mainnet-seeds-peers channel and ask the current members for one if needed.
 :::
 
-Add these seeds here to the `~/.realionetwork/config/config.toml` file
+Add these seeds here to the `~/.realio-network/config/config.toml` file
 
 ```toml
 seeds = "....." 

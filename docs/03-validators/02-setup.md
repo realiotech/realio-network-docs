@@ -14,6 +14,12 @@ A validator's stake is slashed if they become unavailable or sign blocks at the 
 If you want to become a validator for the `mainnet`, you should [research security](/mainnet/overview).
 :::
 
+:::tip Staking RST or DSTRX instead of RIO?
+The instructions below use `RIO` (`ario`) as the bonded asset. Realio Network also supports validators bonded
+with `RST` or the ERC-20 token `DSTRX` through the [multistaking](multistaking) module — see that page for the
+equivalent commands.
+:::
+
 ## 1. Run a full node
 To become a validator, you must first have `realio-networkd` installed and be able to run a full node. You can
 first [setup your full node](/fullnode/overview) if you haven't yet.
