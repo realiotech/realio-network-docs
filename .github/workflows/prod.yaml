@@ -31,6 +31,11 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # DO_ACCESS_TOKEN is an environment secret. The org-wide
+    # DO_REGISTRY_PASSWORD_PROD is not scoped to public repos, so public repos
+    # that push images (dstrx-subgraph, rioswap-subgraph, big-dipper-2,
+    # callisto) carry their own repo-scoped token this way.
+    environment: prod
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
@@ -40,7 +45,7 @@ jobs:
         with:
           registry: registry.digitalocean.com
           username: devops@realio.fund
-          password: ${{ secrets.DO_REGISTRY_PASSWORD_PROD }}
+          password: ${{ secrets.DO_ACCESS_TOKEN }}
       - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
@@ -53,6 +58,7 @@ jobs:
   deploy:
     needs: build
     if: github.event_name != 'pull_request'
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
