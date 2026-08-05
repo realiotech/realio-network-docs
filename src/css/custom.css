@@ -32,3 +32,50 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
     text-align: center;
     padding-bottom: 1em;
 }
+
+/* Smooth, non-jarring scrolling for the whole page (e.g. clicking TOC links) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Themed scrollbars: the default dark-mode Infima scrollbar (light grey
+   track + thumb) reads as a harsh, disconnected bar against the near-black
+   sidebar/content backgrounds. Make it subtle and blend with the theme,
+   and only stand out on hover/scroll. */
+html[data-theme='dark'] {
+  --ifm-scrollbar-track-background-color: transparent;
+  --ifm-scrollbar-thumb-background-color: rgba(255, 255, 255, 0.14);
+  --ifm-scrollbar-thumb-hover-background-color: rgba(255, 255, 255, 0.28);
+}
+
+html[data-theme='dark'] * {
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.28);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+/* The sidebar nav scrolls independently from the page; keep its scrollbar
+   reserved so content doesn't shift when it appears/disappears. */
+.theme-doc-sidebar-menu {
+  scrollbar-gutter: stable;
+}

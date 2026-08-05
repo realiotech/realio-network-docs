@@ -1,8 +1,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const {themes} = require('prism-react-renderer');
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -11,10 +12,26 @@ const config = {
   url: 'https://docs.realio.network',
   baseUrl: '/',
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
   favicon: 'img/favicon.png',
   organizationName: 'realiotech', // Usually your GitHub org/user name.
   projectName: 'realio-network-docs', // Usually your repo name.
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
+
+  scripts: [
+    // bump ?v= whenever chatbot-widget.js changes, to bust browser caches
+    { src: '/js/chatbot-widget.js?v=4', defer: true },
+  ],
+  stylesheets: [
+    '/css/chatbot-widget.css?v=3',
+  ],
 
   presets: [
     [
@@ -25,7 +42,11 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           sidebarCollapsible: true,
-          editUrl: 'https://github.com/realiotech/realio-network-docs',
+          editUrl: 'https://github.com/realiotech/realio-network-docs/tree/v1.7.0/',
+          // NOTE: do not enable showLastUpdateTime/showLastUpdateAuthor here.
+          // They read git history, but .dockerignore excludes .git from the
+          // Docker build context, so the CI build fails with
+          // "fatal: not a git repository".
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -48,12 +69,45 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      // Uncomment and edit when there's a network upgrade or migration to
+      // announce. Bump `id` each time so users who dismissed the previous
+      // announcement see the new one.
+      // announcementBar: {
+      //   id: 'upgrade-v1-7-0',
+      //   content:
+      //     'Mainnet upgrade v1.7.0 is scheduled — <a href="/mainnet/overview">see the upgrade guide</a>.',
+      //   backgroundColor: '#25c2a0',
+      //   textColor: '#04342c',
+      //   isCloseable: true,
+      // },
+      image: 'img/realio_logo.png',
+      metadata: [
+        {
+          name: 'description',
+          content:
+            'Realio Network documentation: run a full node, become a validator, delegate, and build on a multi-chain layer 1 for real-world assets.',
+        },
+        {name: 'keywords', content: 'realio, blockchain, validator, cosmos, RWA, EVM, staking'},
+        {name: 'twitter:card', content: 'summary_large_image'},
+      ],
       colorMode: {
         defaultMode: 'dark',
         respectPrefersColorScheme: true,
       },
+      backToTopButton: true,
+      docs: {
+        sidebar: {
+          hideable: false,
+          autoCollapseCategories: true,
+        },
+      },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 4,
+      },
       navbar: {
         title: '',
+        hideOnScroll: false,
         logo: {
           alt: 'Realio Network Logo',
           src: 'img/realio_logo_light.png',
@@ -76,6 +130,15 @@ const config = {
       footer:  {
         style: 'dark',
         links: [
+          {
+            title: null,
+            items: [
+              {
+                html:
+                  '<a href="https://www.realio.network" style="display:inline-block"><img src="/img/realio_logo.png" alt="Realio Network" style="height:36px" /></a>',
+              },
+            ],
+          },
           {
             title: 'Related docs',
             items: [
@@ -120,16 +183,12 @@ const config = {
             ],
           },
         ],
-        logo: {
-          alt: 'Realio Network',
-          src: 'img/realio_logo.png',
-          href: 'https://www.realio.network',
-        },
         copyright: `Copyright © ${new Date().getFullYear()} Realio Network`,
       },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['bash', 'json', 'yaml', 'toml', 'go', 'solidity', 'docker'],
       },
     }),
 };
