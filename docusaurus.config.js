@@ -43,7 +43,10 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           sidebarCollapsible: true,
           editUrl: 'https://github.com/realiotech/realio-network-docs/tree/v1.7.0/',
-          showLastUpdateTime: true,
+          // NOTE: do not enable showLastUpdateTime/showLastUpdateAuthor here.
+          // They read git history, but .dockerignore excludes .git from the
+          // Docker build context, so the CI build fails with
+          // "fatal: not a git repository".
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
