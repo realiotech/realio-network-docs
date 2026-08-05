@@ -27,7 +27,7 @@ const config = {
 
   scripts: [
     // bump ?v= whenever chatbot-widget.js changes, to bust browser caches
-    { src: '/js/chatbot-widget.js?v=3', defer: true },
+    { src: '/js/chatbot-widget.js?v=4', defer: true },
   ],
   stylesheets: [
     '/css/chatbot-widget.css?v=3',

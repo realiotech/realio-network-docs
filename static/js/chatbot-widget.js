@@ -1,5 +1,10 @@
 (function () {
-  var API_URL = "/api/chat";
+  // Absolute URL on purpose: this same widget file is served from both
+  // realio-docs.decentrio.ventures (same-origin, works either way) and
+  // docs.realio.network (cross-origin - the AI backend only runs on the
+  // decentrio box, docs.realio.network is a static-only k8s deployment
+  // with no backend of its own). See chatbot/DEPLOYMENT_GUIDE.md.
+  var API_URL = "https://realio-docs.decentrio.ventures/api/chat";
 
   var ICONS = {
     chat:

@@ -21,11 +21,19 @@ CHAT_MODEL = os.environ.get("CHAT_MODEL", "qwen3:8b")
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://127.0.0.1:6333")
 COLLECTION = os.environ.get("QDRANT_COLLECTION", "realio_docs")
 TOP_K = int(os.environ.get("TOP_K", "3"))
-ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://realio-docs.decentrio.ventures")
+# comma-separated list, e.g. "https://docs.realio.network,https://realio-docs.decentrio.ventures"
+ALLOWED_ORIGINS = [
+    o.strip()
+    for o in os.environ.get(
+        "ALLOWED_ORIGINS",
+        "https://realio-docs.decentrio.ventures,https://docs.realio.network",
+    ).split(",")
+    if o.strip()
+]
 RATE_LIMIT_SECONDS = float(os.environ.get("RATE_LIMIT_SECONDS", "3"))
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGIN}})
+CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
 
 qdrant = QdrantClient(url=QDRANT_URL)
 

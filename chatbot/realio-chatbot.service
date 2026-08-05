@@ -12,8 +12,8 @@ Environment="QDRANT_URL=http://127.0.0.1:6333"
 Environment="QDRANT_COLLECTION=realio_docs"
 Environment="CHAT_MODEL=qwen3:8b"
 Environment="EMBED_MODEL=nomic-embed-text"
-Environment="ALLOWED_ORIGIN=https://realio-docs.decentrio.ventures"
-ExecStart=/root/realio-network-docs/chatbot/venv/bin/gunicorn -w 2 -b 127.0.0.1:8000 --timeout 180 app:app
+Environment="ALLOWED_ORIGINS=https://realio-docs.decentrio.ventures,https://docs.realio.network"
+ExecStart=/root/realio-network-docs/chatbot/venv/bin/gunicorn -w 1 -b 127.0.0.1:8000 --timeout 180 app:app
 Restart=always
 RestartSec=5
 StandardOutput=append:/var/log/realio-chatbot.log
