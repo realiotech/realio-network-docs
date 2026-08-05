@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
 Flask chat API: retrieves relevant doc chunks from Qdrant, generates an
-answer with Ollama (qwen3:8b), returns the answer plus source links.
+answer with Ollama (qwen3:8b), streams the answer back as newline-delimited
+JSON events plus source links.
 
 Run in production via gunicorn (see realio-chatbot.service), not directly.
 """
 import os
 import re
+import json
 import time
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS
 from qdrant_client import QdrantClient
 
@@ -51,22 +53,35 @@ def embed(text, prefix):
     return r.json()["embedding"]
 
 
-def generate(prompt):
-    r = requests.post(
+def generate_stream(prompt):
+    """Yields raw text tokens from Ollama as they're generated."""
+    with requests.post(
         f"{OLLAMA_URL}/api/generate",
         json={
             "model": CHAT_MODEL,
             "prompt": prompt,
-            "stream": False,
+            "stream": True,
             "think": False,
             "keep_alive": "30m",
             "options": {"num_predict": 250, "num_ctx": 4096},
         },
         timeout=180,
-    )
-    r.raise_for_status()
-    text = r.json().get("response", "")
-    return THINK_RE.sub("", text).strip()
+        stream=True,
+    ) as r:
+        r.raise_for_status()
+        for line in r.iter_lines():
+            if not line:
+                continue
+            data = json.loads(line)
+            chunk = data.get("response", "")
+            if chunk:
+                yield chunk
+            if data.get("done"):
+                break
+
+
+def sse_line(obj):
+    return json.dumps(obj) + "\n"
 
 
 @app.route("/api/chat", methods=["POST"])
@@ -101,24 +116,40 @@ def chat():
             seen_urls.add(url)
             sources.append({"title": payload.get("heading"), "url": url})
 
-    if not context_parts:
-        return jsonify(
-            {
-                "answer": "I couldn't find anything relevant in the docs for that. "
-                "Try rephrasing, or browse the docs directly.",
-                "sources": [],
-            }
-        )
+    def event_stream():
+        if not context_parts:
+            yield sse_line(
+                {
+                    "type": "token",
+                    "text": "I couldn't find anything relevant in the docs for "
+                    "that. Try rephrasing, or browse the docs directly.",
+                }
+            )
+            yield sse_line({"type": "done", "sources": []})
+            return
 
-    context = "\n\n---\n\n".join(context_parts)
-    prompt = f"{SYSTEM_PROMPT}\n\nContext:\n{context}\n\nQuestion: {question}\n\nAnswer:"
+        yield sse_line({"type": "sources", "sources": sources})
 
-    try:
-        answer = generate(prompt)
-    except Exception as e:
-        return jsonify({"error": f"generation failed: {e}"}), 502
+        context = "\n\n---\n\n".join(context_parts)
+        prompt = f"{SYSTEM_PROMPT}\n\nContext:\n{context}\n\nQuestion: {question}\n\nAnswer:"
 
-    return jsonify({"answer": answer, "sources": sources})
+        try:
+            for chunk in generate_stream(prompt):
+                # think:false means no <think> tags should appear, but strip
+                # defensively in case a chunk straddles a tag boundary.
+                cleaned = THINK_RE.sub("", chunk)
+                if cleaned:
+                    yield sse_line({"type": "token", "text": cleaned})
+        except Exception as e:
+            yield sse_line({"type": "error", "error": f"generation failed: {e}"})
+            return
+
+        yield sse_line({"type": "done", "sources": sources})
+
+    resp = Response(stream_with_context(event_stream()), mimetype="application/x-ndjson")
+    resp.headers["X-Accel-Buffering"] = "no"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp
 
 
 @app.route("/api/health", methods=["GET"])

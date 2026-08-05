@@ -45,20 +45,24 @@
     function addMessage(role, text, sources) {
       var msg = el("div", "rio-chat-msg " + role, text);
       if (sources && sources.length) {
-        var srcWrap = el("div", "rio-sources");
-        sources.forEach(function (s) {
-          var a = document.createElement("a");
-          a.href = s.url;
-          a.textContent = "→ " + (s.title || s.url);
-          a.target = "_blank";
-          a.rel = "noopener";
-          srcWrap.appendChild(a);
-        });
-        msg.appendChild(srcWrap);
+        appendSources(msg, sources);
       }
       messages.appendChild(msg);
       messages.scrollTop = messages.scrollHeight;
       return msg;
+    }
+
+    function appendSources(msg, sources) {
+      var srcWrap = el("div", "rio-sources");
+      sources.forEach(function (s) {
+        var a = document.createElement("a");
+        a.href = s.url;
+        a.textContent = "→ " + (s.title || s.url);
+        a.target = "_blank";
+        a.rel = "noopener";
+        srcWrap.appendChild(a);
+      });
+      msg.appendChild(srcWrap);
     }
 
     var greeted = false;
@@ -80,6 +84,86 @@
     closeBtn.addEventListener("click", closePanel);
 
     var sending = false;
+
+    function streamChat(question) {
+      return fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: question }),
+      }).then(function (r) {
+        if (!r.ok || !r.body) {
+          return r
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (data) {
+              throw new Error(data.error || "Something went wrong. Try again.");
+            });
+        }
+
+        var reader = r.body.getReader();
+        var decoder = new TextDecoder();
+        var buf = "";
+        var botMsg = null;
+        var typing = el("div", "rio-chat-typing", "Thinking...");
+        messages.appendChild(typing);
+        messages.scrollTop = messages.scrollHeight;
+
+        function ensureBotMsg() {
+          if (!botMsg) {
+            typing.remove();
+            botMsg = el("div", "rio-chat-msg bot", "");
+            messages.appendChild(botMsg);
+          }
+          return botMsg;
+        }
+
+        function handleEvent(evt) {
+          if (evt.type === "sources") {
+            // held until "done" so they land after the final text
+            return;
+          }
+          if (evt.type === "token") {
+            ensureBotMsg().textContent += evt.text;
+            messages.scrollTop = messages.scrollHeight;
+          } else if (evt.type === "error") {
+            typing.remove();
+            addMessage("bot", evt.error || "Something went wrong. Try again.");
+          } else if (evt.type === "done") {
+            var msg = ensureBotMsg();
+            if (evt.sources && evt.sources.length) {
+              appendSources(msg, evt.sources);
+            }
+            messages.scrollTop = messages.scrollHeight;
+          }
+        }
+
+        function pump() {
+          return reader.read().then(function (result) {
+            if (result.done) {
+              typing.remove();
+              return;
+            }
+            buf += decoder.decode(result.value, { stream: true });
+            var lines = buf.split("\n");
+            buf = lines.pop(); // last element may be a partial line
+            for (var i = 0; i < lines.length; i++) {
+              if (!lines[i].trim()) continue;
+              try {
+                handleEvent(JSON.parse(lines[i]));
+              } catch (e) {
+                // ignore malformed line, keep streaming
+              }
+            }
+            return pump();
+          });
+        }
+
+        return pump();
+      });
+    }
+
     function send() {
       var text = textarea.value.trim();
       if (!text || sending) return;
@@ -88,31 +172,9 @@
       sending = true;
       sendBtn.disabled = true;
 
-      var typing = el("div", "rio-chat-typing", "Thinking...");
-      messages.appendChild(typing);
-      messages.scrollTop = messages.scrollHeight;
-
-      fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
-      })
-        .then(function (r) {
-          return r.json().then(function (data) {
-            return { ok: r.ok, data: data };
-          });
-        })
-        .then(function (res) {
-          typing.remove();
-          if (!res.ok) {
-            addMessage("bot", res.data.error || "Something went wrong. Try again.");
-            return;
-          }
-          addMessage("bot", res.data.answer, res.data.sources);
-        })
-        .catch(function () {
-          typing.remove();
-          addMessage("bot", "Couldn't reach the assistant. Please try again shortly.");
+      streamChat(text)
+        .catch(function (err) {
+          addMessage("bot", err.message || "Couldn't reach the assistant. Please try again shortly.");
         })
         .finally(function () {
           sending = false;
