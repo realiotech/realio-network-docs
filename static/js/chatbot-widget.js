@@ -1,27 +1,56 @@
 (function () {
   var API_URL = "/api/chat";
 
-  function el(tag, cls, text) {
+  var ICONS = {
+    chat:
+      '<svg class="rio-icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
+    close:
+      '<svg class="rio-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+    sparkles:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>',
+    send:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
+    link:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>',
+  };
+
+  var SUGGESTIONS = [
+    "What is Realio Network?",
+    "How do I run a full node?",
+    "How do I become a validator?",
+  ];
+
+  function el(tag, cls, html) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
-    if (text) e.textContent = text;
+    if (html != null) e.innerHTML = html;
     return e;
   }
 
   function init() {
     if (document.getElementById("rio-chat-toggle")) return; // already mounted (SPA nav)
 
-    var toggle = el("button", "rio-chat-toggle", "💬"); // speech balloon
+    var toggle = el("button", "rio-chat-toggle", ICONS.chat + ICONS.close);
     toggle.id = "rio-chat-toggle";
     toggle.setAttribute("aria-label", "Open docs chat assistant");
+    var badge = el("span", "rio-chat-badge");
+    toggle.appendChild(badge);
 
     var panel = el("div", "rio-chat-panel");
     panel.id = "rio-chat-panel";
 
     var header = el("div", "rio-chat-header");
-    header.appendChild(el("span", null, "Docs Assistant"));
-    var closeBtn = el("button", null, "✕");
+    var avatar = el("div", "rio-chat-avatar", ICONS.sparkles);
+    var headerText = el("div", "rio-chat-header-text");
+    headerText.appendChild(el("div", "rio-title", "Docs Assistant"));
+    var subtitle = el("div", "rio-subtitle");
+    subtitle.appendChild(el("span", "rio-status-dot"));
+    subtitle.appendChild(document.createTextNode("Answers from the Realio docs"));
+    headerText.appendChild(subtitle);
+    var closeBtn = el("button", "rio-close", ICONS.close.replace('class="rio-icon-close" ', ""));
     closeBtn.setAttribute("aria-label", "Close chat");
+    header.appendChild(avatar);
+    header.appendChild(headerText);
     header.appendChild(closeBtn);
 
     var messages = el("div", "rio-chat-messages");
@@ -31,7 +60,8 @@
     var textarea = document.createElement("textarea");
     textarea.rows = 1;
     textarea.placeholder = "Ask about the docs...";
-    var sendBtn = el("button", null, "Send");
+    var sendBtn = el("button", "rio-send", ICONS.send);
+    sendBtn.setAttribute("aria-label", "Send message");
     inputRow.appendChild(textarea);
     inputRow.appendChild(sendBtn);
 
@@ -42,40 +72,69 @@
     document.body.appendChild(toggle);
     document.body.appendChild(panel);
 
-    function addMessage(role, text, sources) {
-      var msg = el("div", "rio-chat-msg " + role, text);
-      if (sources && sources.length) {
-        appendSources(msg, sources);
-      }
-      messages.appendChild(msg);
-      messages.scrollTop = messages.scrollHeight;
-      return msg;
+    function botAvatar() {
+      return el("div", "rio-msg-avatar", ICONS.sparkles);
     }
 
-    function appendSources(msg, sources) {
+    function addMessage(role, text) {
+      var row = el("div", "rio-msg-row " + role);
+      if (role === "bot") row.appendChild(botAvatar());
+      var bubble = el("div", "rio-chat-msg", null);
+      bubble.textContent = text;
+      row.appendChild(bubble);
+      messages.appendChild(row);
+      messages.scrollTop = messages.scrollHeight;
+      return bubble;
+    }
+
+    function appendSources(bubble, sources) {
       var srcWrap = el("div", "rio-sources");
       sources.forEach(function (s) {
         var a = document.createElement("a");
         a.href = s.url;
-        a.textContent = "→ " + (s.title || s.url);
         a.target = "_blank";
         a.rel = "noopener";
+        a.innerHTML = ICONS.link;
+        var label = document.createElement("span");
+        label.textContent = s.title || s.url;
+        a.appendChild(label);
         srcWrap.appendChild(a);
       });
-      msg.appendChild(srcWrap);
+      bubble.appendChild(srcWrap);
     }
 
     var greeted = false;
+    function renderSuggestions() {
+      var wrap = el("div", "rio-suggestions");
+      SUGGESTIONS.forEach(function (q) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = q;
+        btn.addEventListener("click", function () {
+          wrap.remove();
+          textarea.value = q;
+          send();
+        });
+        wrap.appendChild(btn);
+      });
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
     function openPanel() {
       panel.classList.add("open");
+      toggle.classList.add("open");
+      badge.style.display = "none";
       if (!greeted) {
         addMessage("bot", "Hi! Ask me anything about the Realio Network docs.");
+        renderSuggestions();
         greeted = true;
       }
       textarea.focus();
     }
     function closePanel() {
       panel.classList.remove("open");
+      toggle.classList.remove("open");
     }
 
     toggle.addEventListener("click", function () {
@@ -105,44 +164,45 @@
         var reader = r.body.getReader();
         var decoder = new TextDecoder();
         var buf = "";
-        var botMsg = null;
-        var typing = el("div", "rio-chat-typing", "Thinking...");
-        messages.appendChild(typing);
+        var botBubble = null;
+        var typingRow = el("div", "rio-msg-row bot");
+        typingRow.appendChild(botAvatar());
+        var typing = el("div", "rio-chat-typing", "<span></span><span></span><span></span>");
+        typingRow.appendChild(typing);
+        messages.appendChild(typingRow);
         messages.scrollTop = messages.scrollHeight;
 
-        function ensureBotMsg() {
-          if (!botMsg) {
-            typing.remove();
-            botMsg = el("div", "rio-chat-msg bot", "");
-            messages.appendChild(botMsg);
+        function ensureBotBubble() {
+          if (!botBubble) {
+            typingRow.remove();
+            botBubble = addMessage("bot", "");
           }
-          return botMsg;
+          return botBubble;
         }
 
         function handleEvent(evt) {
           if (evt.type === "sources") {
-            // held until "done" so they land after the final text
-            return;
+            return; // attached on "done" so they land after the final text
           }
           if (evt.type === "token") {
-            ensureBotMsg().textContent += evt.text;
+            ensureBotBubble().textContent += evt.text;
             messages.scrollTop = messages.scrollHeight;
           } else if (evt.type === "error") {
-            typing.remove();
+            typingRow.remove();
             addMessage("bot", evt.error || "Something went wrong. Try again.");
           } else if (evt.type === "done") {
-            var msg = ensureBotMsg();
+            var bubble = ensureBotBubble();
             if (evt.sources && evt.sources.length) {
-              appendSources(msg, evt.sources);
+              appendSources(bubble, evt.sources);
+              messages.scrollTop = messages.scrollHeight;
             }
-            messages.scrollTop = messages.scrollHeight;
           }
         }
 
         function pump() {
           return reader.read().then(function (result) {
             if (result.done) {
-              typing.remove();
+              typingRow.remove();
               return;
             }
             buf += decoder.decode(result.value, { stream: true });
@@ -167,8 +227,11 @@
     function send() {
       var text = textarea.value.trim();
       if (!text || sending) return;
+      var existingSuggestions = messages.querySelector(".rio-suggestions");
+      if (existingSuggestions) existingSuggestions.remove();
       addMessage("user", text);
       textarea.value = "";
+      textarea.style.height = "auto";
       sending = true;
       sendBtn.disabled = true;
 
@@ -188,6 +251,10 @@
         e.preventDefault();
         send();
       }
+    });
+    textarea.addEventListener("input", function () {
+      textarea.style.height = "auto";
+      textarea.style.height = Math.min(textarea.scrollHeight, 90) + "px";
     });
   }
 

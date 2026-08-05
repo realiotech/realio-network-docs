@@ -21,5 +21,5 @@ Make sure that every node has a unique `priv_validator.json`. Do not copy the `p
 :::
 
 After the reset, you can sync back your node with state-sync. Click the appropriate link below for directions.
-- [Testnet](/testnet/join-public/state-sync)
+- [Testnet](/fullnode/state-sync)
 - [Mainnet](/mainnet/overview)

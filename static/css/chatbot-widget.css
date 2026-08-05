@@ -1,138 +1,406 @@
+:root {
+  --rio-accent: var(--ifm-color-primary, #25c2a0);
+  --rio-accent-dark: var(--ifm-color-primary-dark, #21af90);
+  --rio-accent-darker: var(--ifm-color-primary-darker, #1fa588);
+  --rio-shadow-tint: rgba(37, 194, 160, 0.35);
+  --rio-radius: 16px;
+}
+
 .rio-chat-toggle {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 24px;
   z-index: 9999;
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  background: #4f46e5;
+  background: linear-gradient(135deg, var(--rio-accent), var(--rio-accent-dark));
   color: #fff;
   border: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px var(--rio-shadow-tint), 0 2px 6px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.rio-chat-toggle:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 26px var(--rio-shadow-tint), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.rio-chat-toggle svg {
+  width: 26px;
+  height: 26px;
+}
+
+.rio-chat-toggle .rio-icon-close {
+  display: none;
+}
+
+.rio-chat-toggle.open .rio-icon-chat {
+  display: none;
+}
+
+.rio-chat-toggle.open .rio-icon-close {
+  display: block;
+}
+
+.rio-chat-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--ifm-background-color, #1b1b1d);
 }
 
 .rio-chat-panel {
   position: fixed;
-  bottom: 92px;
-  right: 24px;
+  bottom: 94px;
+  left: 24px;
   z-index: 9999;
-  width: 360px;
+  width: 380px;
   max-width: calc(100vw - 32px);
-  height: 480px;
+  height: 560px;
   max-height: calc(100vh - 140px);
   background: var(--ifm-background-surface-color, #fff);
   color: var(--ifm-font-color-base, #1c1e21);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  display: none;
+  border-radius: var(--rio-radius);
+  border: 1px solid var(--ifm-color-emphasis-300, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.2);
+  display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--ifm-font-family-base, system-ui, -apple-system, sans-serif);
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
 .rio-chat-panel.open {
-  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 .rio-chat-header {
-  padding: 12px 16px;
-  background: #4f46e5;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--rio-accent), var(--rio-accent-darker));
   color: #fff;
-  font-weight: 600;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
-.rio-chat-header button {
-  background: none;
+.rio-chat-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rio-chat-avatar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.rio-chat-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.rio-chat-header-text .rio-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  line-height: 1.2;
+}
+
+.rio-chat-header-text .rio-subtitle {
+  font-size: 11.5px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.rio-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.rio-chat-header button.rio-close {
+  background: rgba(255, 255, 255, 0.14);
   border: none;
   color: #fff;
   cursor: pointer;
-  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.rio-chat-header button.rio-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.rio-chat-header button.rio-close svg {
+  width: 15px;
+  height: 15px;
 }
 
 .rio-chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 12px;
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  background: var(--ifm-background-color, transparent);
 }
 
-.rio-chat-msg {
-  max-width: 88%;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  line-height: 1.4;
-  white-space: pre-wrap;
+.rio-msg-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 92%;
 }
 
-.rio-chat-msg.user {
+.rio-msg-row.user {
   align-self: flex-end;
-  background: #4f46e5;
+  flex-direction: row-reverse;
+}
+
+.rio-msg-row.bot {
+  align-self: flex-start;
+}
+
+.rio-msg-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rio-accent), var(--rio-accent-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rio-msg-avatar svg {
+  width: 13px;
+  height: 13px;
   color: #fff;
 }
 
-.rio-chat-msg.bot {
-  align-self: flex-start;
+.rio-chat-msg {
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.rio-msg-row.user .rio-chat-msg {
+  background: linear-gradient(135deg, var(--rio-accent), var(--rio-accent-dark));
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.rio-msg-row.bot .rio-chat-msg {
   background: var(--ifm-color-emphasis-200, #f1f1f3);
+  color: var(--ifm-font-color-base, #1c1e21);
+  border-bottom-left-radius: 4px;
 }
 
 .rio-chat-msg .rio-sources {
-  margin-top: 6px;
-  font-size: 12px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--ifm-color-emphasis-300, rgba(0, 0, 0, 0.1));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .rio-chat-msg .rio-sources a {
-  display: block;
-  color: inherit;
-  text-decoration: underline;
-  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--rio-accent-darker, var(--rio-accent));
+  background: rgba(37, 194, 160, 0.12);
+  border-radius: 999px;
+  padding: 3px 9px 3px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.4;
+  transition: background 0.15s ease;
+}
+
+.rio-chat-msg .rio-sources a:hover {
+  background: rgba(37, 194, 160, 0.22);
+  text-decoration: none;
+}
+
+.rio-chat-msg .rio-sources a svg {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.rio-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  align-self: flex-start;
+  max-width: 92%;
+}
+
+.rio-suggestions button {
+  text-align: left;
+  background: var(--ifm-background-surface-color, #fff);
+  border: 1px solid var(--ifm-color-emphasis-300, rgba(0, 0, 0, 0.12));
+  color: var(--ifm-font-color-base, #1c1e21);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.rio-suggestions button:hover {
+  border-color: var(--rio-accent);
+  background: rgba(37, 194, 160, 0.08);
 }
 
 .rio-chat-input {
   display: flex;
-  border-top: 1px solid var(--ifm-color-emphasis-300, #e2e2e2);
-  padding: 8px;
+  align-items: flex-end;
+  border-top: 1px solid var(--ifm-color-emphasis-300, rgba(0, 0, 0, 0.1));
+  padding: 10px;
   gap: 8px;
+  flex-shrink: 0;
+  background: var(--ifm-background-surface-color, #fff);
 }
 
 .rio-chat-input textarea {
   flex: 1;
   resize: none;
-  border: 1px solid var(--ifm-color-emphasis-300, #ccc);
-  border-radius: 8px;
-  padding: 8px;
+  border: 1px solid var(--ifm-color-emphasis-300, rgba(0, 0, 0, 0.15));
+  background: var(--ifm-background-color, transparent);
+  color: var(--ifm-font-color-base, #1c1e21);
+  border-radius: 18px;
+  padding: 9px 14px;
   font-size: 14px;
   font-family: inherit;
-  max-height: 80px;
+  max-height: 90px;
+  line-height: 1.4;
+  transition: border-color 0.15s ease;
 }
 
-.rio-chat-input button {
-  background: #4f46e5;
+.rio-chat-input textarea:focus {
+  outline: none;
+  border-color: var(--rio-accent);
+}
+
+.rio-chat-input button.rio-send {
+  background: linear-gradient(135deg, var(--rio-accent), var(--rio-accent-dark));
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 0 14px;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease, opacity 0.12s ease;
 }
 
-.rio-chat-input button:disabled {
-  opacity: 0.5;
+.rio-chat-input button.rio-send svg {
+  width: 16px;
+  height: 16px;
+}
+
+.rio-chat-input button.rio-send:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.rio-chat-input button.rio-send:disabled {
+  opacity: 0.4;
   cursor: default;
 }
 
 .rio-chat-typing {
-  font-size: 13px;
-  opacity: 0.7;
   align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 13px;
+  background: var(--ifm-color-emphasis-200, #f1f1f3);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+}
+
+.rio-chat-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-500, #999);
+  animation: rio-bounce 1.2s infinite ease-in-out;
+}
+
+.rio-chat-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.rio-chat-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes rio-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .rio-chat-panel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+    bottom: 88px;
+    height: calc(100vh - 160px);
+  }
+
+  .rio-chat-toggle {
+    left: 16px;
+    bottom: 16px;
+  }
 }
