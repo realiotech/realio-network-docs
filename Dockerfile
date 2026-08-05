@@ -1,18 +1,15 @@
-FROM node:lts as build
+FROM node:lts AS build
 
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 COPY . .
 ARG NODE_ENV
 RUN npm install
 RUN npm run build
 
 ## Deploy ######################################################################
-# Use a stable nginx image
-FROM nginx:stable-alpine as deploy
+FROM nginxinc/nginx-unprivileged:stable-alpine AS deploy
 COPY --from=build /app/build /usr/share/nginx/html/
-COPY --from=build /app/build/index.html /usr/share/nginx/html/index.html
-RUN rm -rf /etc/nginx/conf.d
-COPY conf /etc/nginx
-EXPOSE 80
+COPY conf/conf.d/default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,22 +1,8 @@
 RELEASE_NAME=realio-network-docs
-
-template:
-	helm template $(RELEASE_NAME) chart -f chart/values-production.yaml
-
-install:
-	helm upgrade --install $(RELEASE_NAME) chart
-
-install-production:
-	helm upgrade -n production --install $(RELEASE_NAME) chart -f chart/values-production.yaml
+REGISTRY=registry.digitalocean.com/kubernetes-prod
 
 docker-build:
-	docker build -t registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest .
+	docker build -t $(REGISTRY)/$(RELEASE_NAME):latest .
 
 docker-push:
-	docker push registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest
-
-docker-tag-prod: docker-build
-	docker tag registry.k8s.stage.realio.fund/$(RELEASE_NAME):latest registry.k8s.stage.realio.fund/$(RELEASE_NAME):prod
-
-docker-push-prod: docker-tag-prod
-	docker push registry.k8s.stage.realio.fund/$(RELEASE_NAME):prod
+	docker push $(REGISTRY)/$(RELEASE_NAME):latest
