@@ -211,7 +211,62 @@ systemctl list-timers | grep reindex   # confirm it's actually scheduled
 Verify it's real, not just installed: `journalctl -u reindex --since
 "-1h"` should show actual run history after the first interval passes.
 
-## 11. Final verification checklist
+## 11. When the docs site is containerized / GitOps-deployed
+
+The steps above assume the docs site and the AI backend live on the same
+VM. Realio's production site does not: `docs.realio.network` is built by
+GitHub Actions into a Docker image and deployed to Kubernetes via a
+GitOps repo + ArgoCD, while Ollama/Qdrant/Flask run on a separate VM
+(the `realio-docs.decentrio.ventures` box). If you're in that split
+setup, the following differ:
+
+**The docs pod cannot host the AI.** It's a static-file nginx image
+(`nginx-unprivileged`, port 8080) with `cpu: 200m` / `memory: 256Mi` -
+about a fifth of a core. An 8B model needs multiple GB of RAM resident.
+Running the AI there means new Deployments, a PVC for Qdrant, and real
+resource requests; it is not a config tweak.
+
+**The widget must use an absolute API URL.** A relative `/api/chat`
+404s on the containerized domain, because that nginx config only serves
+static files - there's no backend to proxy to. Point `API_URL` at the
+VM that actually runs the API, and add the docs domain to the Flask
+`ALLOWED_ORIGINS`.
+
+**nginx config lives in two different places.** The `location /api/chat`
+proxy block belongs to the *VM's* nginx (`/etc/nginx/sites-enabled/...`),
+not `conf/conf.d/default.conf` in this repo - that one ships inside the
+docs image and only needs to serve static files.
+
+**Don't enable git-history-dependent Docusaurus options.**
+`showLastUpdateTime` / `showLastUpdateAuthor` shell out to `git log`,
+but `.dockerignore` excludes `.git` from the build context, so the CI
+build dies with `fatal: not a git repository`. This passes locally
+(where `.git` exists) and fails only in CI - test by building from a
+copy with `.git` removed, not from your working tree.
+
+**Keep the indexer's branch in sync with production.** The chatbot
+indexes docs from a git checkout on the AI VM. Production is built from
+whatever branch `.github/workflows/prod.yaml` triggers on (`main`). If
+the VM's checkout sits on a release branch instead, the chatbot answers
+from docs that differ from what users are reading - a silent, confusing
+failure. `reindex.sh` now checks this and switches branches, but verify
+after any release-branch workflow change:
+
+```bash
+cd /root/realio-network-docs && git rev-parse --abbrev-ref HEAD   # expect: main
+```
+
+**Widget asset caching still applies.** The image build copies
+`static/` into the site unhashed, so the `?v=N` cache-bust in
+`docusaurus.config.js` is still the mechanism that gets updated widget
+code to returning visitors. Bump it on every widget change.
+
+**Availability coupling.** The production docs now depend on a separate
+VM for the chat feature. If that box is down, the chat button renders
+and fails rather than being absent. Consider hiding the widget on a
+failed health check if that matters.
+
+## 12. Final verification checklist
 
 - [ ] `curl 127.0.0.1:8000/api/health` → `{"status":"ok"}`
 - [ ] `curl 127.0.0.1:8000/api/chat -d '{"message":"..."}'` → real answer,
