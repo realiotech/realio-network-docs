@@ -57,3 +57,4 @@ works.
   [Testnet Endpoints](/testnet/endpoints)
 - [Add Realio Network to MetaMask](evm-metamask): step-by-step wallet setup
 - [Precompiled contracts](evm-precompiles): interact with native Cosmos SDK modules from Solidity
+- [Deploying a dApp](evm-deploying-contracts): how to get your smart contract deployer address approved
