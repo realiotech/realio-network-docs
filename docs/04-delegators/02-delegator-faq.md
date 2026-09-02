@@ -77,7 +77,7 @@ redelegating DSTRX), and for how to do the same from a smart contract via the Mu
 - Apart from these criteria, there will be a possibility for validators to signal a website address to complete their resume. Validators will need to build reputation one way or another to attract delegators. For example, it would be a good practice for validators to have their setup audited by third parties. Note though, that the realio team will not approve or conduct any audit themselves. For more on due diligence, see this blog post.
 
 ### Where can I see all active validators?
-All active validators can be found on [The Realio Network Explorer](https://explorer.realio.network/validators) or on the [Realio Platform](https://app.realio.fund/network/portal)
+All active validators can be found on [The Realio Network Explorer](https://explorer.realio.network/validators)
 
 ### Can a validator run away with their delegators' tokens?
 By delegating to a validator, a user delegates voting power. The more voting power a validator have, the more weight they have in the consensus and governance processes. This does not mean that the validator has custody of their delegators' tokens. By no means can a validator run away with its delegator's funds.
