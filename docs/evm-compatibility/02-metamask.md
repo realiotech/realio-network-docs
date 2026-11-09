@@ -30,7 +30,7 @@ You can add Realio Network to MetaMask (or any other EVM wallet) as a custom net
    | New RPC URL         | Your node's `http://<ip>:8545`, or a public endpoint (see [Testnet Endpoints](/testnet/endpoints)) |
    | Chain ID            | `3300`                              |
    | Currency symbol     | `RIO`                               |
-   | Block explorer URL  | `https://testnet-explorer.realio.network`   |
+   | Block explorer URL  | `https://explorer.realiostage.network`   |
 
 3. Save. MetaMask will now show your `RIO` balance and let you sign transactions on Realio Network.
 
