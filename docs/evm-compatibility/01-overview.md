@@ -30,7 +30,7 @@ EVM chain ID is embedded directly in it:
 | Network | Cosmos chain ID        | EVM chain ID (decimal) | EVM chain ID (hex) |
 |:--------|:------------------------|:-----------------------|:--------------------|
 | Mainnet | `realionetwork_3301-1`  | `3301`                  | `0xCE5`             |
-| Testnet | `realionetwork_3300-1`  | `3300`                  | `0xCE4`             |
+| Testnet | `realionetwork_3300-6`  | `3300`                  | `0xCE4`             |
 
 Always double check the chain ID before signing a transaction, especially when adding custom RPC endpoints to a
 wallet.
